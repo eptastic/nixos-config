@@ -27,9 +27,13 @@
          specialArgs = {inherit inputs;};
          modules = [
             ./configuration.nix
+			./system # I think I need to specify a .nix? but the vimjoyer video didnt?
 	    # Below refers to the above INPUTS on line 7!! 
 	    inputs.home-manager.nixosModules.default
          ];
        };
+		
+	   homeManagerModules.default = ./user;
+
     };
 }
