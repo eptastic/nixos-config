@@ -15,8 +15,8 @@
           }
 
 	window#waybar {
-	    background-color: rgba(43, 48, 59, 0.5);
-	    border-bottom: 3px solid rgba(100, 114, 125, 0.5);
+	    background-color: rgba(0, 0, 0, 0.0);
+	    /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
 	    color: #ffffff;
 	    transition-property: background-color;
 	    transition-duration: .5s;
@@ -63,9 +63,10 @@
 	    background-color: #a37800;
 	}
 
+
 	#workspaces button {
 	    padding: 5px 5px;
-	    background-color: transparent;
+	    background-color: #a81870 /* transparent */;
 	    color: #ffffff;
 	}
 
@@ -95,6 +96,7 @@
 	    box-shadow: inset 0 -3px #ffffff;
 	}
 
+	#custom-power,
 	#clock,
 	#battery,
 	#cpu,
@@ -112,6 +114,10 @@
 	#scratchpad,
 	#power-profiles-daemon,
 	#mpd {
+	    padding: 0 10px;
+	    color: #ffffff;
+	}
+	#mpris {
 	    padding: 0 10px;
 	    color: #ffffff;
 	}
@@ -221,6 +227,12 @@
 	    color: #2a5c45;
 	}
 
+	#custom-power {
+	    background-color: #000000;
+	    color: #ffffff;
+		padding: 10px 10px;
+	}
+
 	#wireplumber {
 	    background-color: #fff0f5;
 	    color: #000000;
@@ -273,6 +285,11 @@
 	    background-color: #ecf0f1;
 	    color: #2d3436;
 	}
+	
+	#mpris {
+	    background-color: #66cc99;
+	    color: #2a5c45;
+	}
 
 	#mpd {
 	    background-color: #66cc99;
@@ -324,7 +341,7 @@
 	}
 
 	#privacy {
-	    padding: 0;
+	    padding: 0 10px;
 	}
 
 	#privacy-item {
@@ -350,31 +367,44 @@
       mainBar = {
         position = "top";
 	#height = 30;
-	spacing = 4;
+	spacing = 10;
 	output = [ "DP-2" ];
-	modules-left =  [ "hyprland/workspaces" ];
-	modules-center = [ "hyprland/window"];
+	modules-left = [ /* "mpd" */ "mpris" "idle_inhibitor"];
+	modules-center =  [ "hyprland/workspaces" ];
 	modules-right = [  
-	#"mpd"
-        #"idle_inhibitor"
         "pulseaudio"
         "network"
-        #"keyboard-state"
         "tray"
         "clock"
+		"custom/power"
 	];
 
 	# Modules Configuration
 	"hyprland/workspaces" = {
 	   disable-scroll = true;
-	   format = "{icon}";
+	   format = "{name}";
+	   #active-only = false;
+	   #all-outputs = true;
+
+	   sort-by-number = true;
 	   format-icons = {
-             urgent = "";
-             active = "";        
-	     default = "";
+			"1" = "1";
+			"2" = "2";
+			"3" = "3";
+			"4" = "4";
+			"5" = "5";
+			"6" = "6";
+			"7" = "7";
+			"8" = "8";
+			"9" = "9";
 	   };
+	};
 
-
+	"custom/power" = {
+		format = "{icon}";
+		format-icons = "󰤅";
+		on-click = "nwg-bar";
+		on-click-right = "killall nwg-bar";
 	};
 	 ## Is scratchpad possible with hyprland? ##
 #	"sway/scratchpad" = {
@@ -395,13 +425,13 @@
 #             unlocked = "";
 #	    };
 #	};
-#	"idle_inhibitor" = {
-#	  format = "{icon}";
-#	  format-icons = {
-#	    activated = "";
-#	    deactivated = "";
-#	  };
-#	};
+	"idle_inhibitor" = {
+	  format = "{icon}";
+	  format-icons = {
+	    activated = "󰈈";
+	    deactivated = "󰈉";
+	  };
+	};
 
 	"pulseaudio" = {
 	  format = "{volume}% {icon} {format_source}";
@@ -418,6 +448,49 @@
 	  };
 	  on-click = "pavucontrol";
 	};
+
+	"mpd" = {
+       format = "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ";
+       format-disconnected = "Disconnected ";
+       format-stopped = "{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}Stopped ";
+       interval = 10;
+       consume-icons = {
+         on = " "; #Icon shows only when "consume" is on
+       };
+       random-icons = {
+         off = "<span color=\"#f53c3c\"></span> "; #Icon grayed out when "random" is off
+         on = " ";
+	   };
+       repeat-icons = {
+         on = " ";
+       };
+       single-icons = {
+       on = "1 ";
+       };
+       state-icons = {
+       paused = "";
+       playing = "";
+	   };
+       tooltip-format = "MPD (connected)";
+       tooltip-format-disconnected = "MPD (disconnected)";
+	};
+
+	"mpris" = {
+	  player = "spotify";
+	  format = "{player_icon} {title} - {artist} ";
+	  format-paused = "{status_icon} {title} - {artist} ";
+
+      player-icons = {
+		default = "▶";
+		mpv = "🎵";
+	  };
+	  status-icons = {
+		paused = "⏸";
+	  };
+	  ignored-players = ["firefox"];
+	  interval = 1;
+	  dynamic-len = 10;
+	};
 	
 	"network" = {
 	   format-wifi = "{essid} ({signalStrength}%) ";
@@ -428,7 +501,7 @@
 	   format-alt = "{ifname}: {ipaddr}/{cidr}";
 	};
 
-        "tray" = {
+    "tray" = {
 	icon-size = 21;
 	spacing = 10;
 	};

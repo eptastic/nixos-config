@@ -69,6 +69,7 @@
     
 	  #(if pkgs.obsidian.version == "1.5.3" then electron-25.9.0 else obsidian)
 	  obsidian
+	  nwg-bar
       nwg-look   
       gtk3
       gtk2
@@ -86,7 +87,7 @@
       alacritty 
       swww # Background images
       rofi-wayland # Application Launcher
-      firefox
+      #firefox
       #neofetch
       discord
       pavucontrol
@@ -100,10 +101,14 @@
 	  #elegant-sddm # SDDM Theme
       #greetd.greetd
      # greetd.regreet
-	  #hyprlock # super buggy 
+	  swaylock
+	  swaylock-fancy
 	  hypridle
       sops
       bat
+	  audacity
+	  gtklock
+	  mpd
 
     ];
   };
@@ -206,6 +211,7 @@
   # Enabling H Y P R L A N D
   programs.hyprland = {
     enable = true;
+	#package = inputs.hyprland.packages."${pkgs.system}".hyprland;
     xwayland.enable = true;
   };
   environment.sessionVariables = {
@@ -240,7 +246,11 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
-
+  programs.steam = {
+    enable = true;
+	remotePlay.openFirewall = true;
+	dedicatedServer.openFirewall = true;
+  };
 
   ## Desktop Portals - Screensharing etc
   # Disabled to run xorg temporarily
@@ -280,6 +290,20 @@
 #
 #  };
 
+	services.mpd = {
+		enable = true;
+		musicDirectory = "/home/alex/music";
+		extraConfig = ''
+			audio_output {
+				type "pulse"
+				name "My PulseAudio"
+			}
+		'';
+		user = "alex";
+		network.listenAddress = "any";
+		startWhenNeeded = true;
+
+	};
 
 
 }

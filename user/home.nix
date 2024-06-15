@@ -1,11 +1,15 @@
 { config, pkgs, lib, inputs, ... }:
 
+
 {
 
   imports = [
 	./app/file_manager/yazi.nix
 	./app/terminal/wezterm.nix
 	./app/bar/waybar.nix
+	./app/nvim/nvim.nix
+	./app/browser/firefox.nix
+	./app/spotify/spotifyd.nix
   ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -38,11 +42,21 @@
 	gcc # Required for Tree-sitter
 	spotify
 	spicetify-cli
+	spotifyd
+	playerctl
 	fastfetch
 	hyprcursor
 	lazygit
-	chafa # Required for Image Previews for LF
+	#chafa # Required for Image Previews for LF
 	ueberzugpp
+	vencord
+	vesktop
+	swappy
+	waypaper
+	cava
+	(mpv.override {scripts = [mpvScripts.mpris];})
+	hyprpicker
+
   ];
 
   home.pointerCursor = {
@@ -51,8 +65,6 @@
 	name = "Bibata-Modern-Classic";
 	size = 22;
   };
-
-  
 
 
   nixpkgs.config = {
@@ -79,106 +91,7 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-### RANGER IS NOT IN STABLE 23.11!!
-#  programs.ranger = {
-#  	enable = true; 
-#	settings = {
-#		preview_images = true;
-#	};
-#  };
 
-  programs.neovim = 
-  let
-    toLua = str: "lua << EOF\n${str}\nEOF\n";
-    toLuaFile = file: "lua << EOF\n${builtins.readFile file}\nEOF\n";
-    toFile = file: "${builtins.readFile file}";
-  in
-  {
-    enable = true;
-    
-    viAlias = true;
-    vimAlias = true;
-    vimdiffAlias = true;
-
-    extraLuaConfig = ''
-    -- Either write lua code here or...
-
-    -- interpolate files like this: 
-    ${builtins.readFile ./app/nvim/options.lua}
-    
-    '';
-    plugins = with pkgs.vimPlugins; [
-#      lazy-nvim
-       plenary-nvim
-       nvim-web-devicons
-       telescope-fzf-native-nvim
-	   dashboard-nvim
-       # Configure treesitter languages
-	   {
-	    plugin = (nvim-treesitter.withPlugins (p: [
-	      p.tree-sitter-nix
-	      p.tree-sitter-vim
-	      p.tree-sitter-bash
-          p.tree-sitter-lua
-         # p.tree-sitter-c
-            ]));
-	    type = "lua";
-	    config = toFile ./app/nvim/plugin/treesitter.lua;
-	   }
-
-	   {
-	        ## Define plugin based on nixpkgs
-	   	plugin = mini-nvim;
-		type = "lua";
-		config = toFile ./app/nvim/plugin/mini.lua; 
-       }
-
-	   {
-	        ## Define plugin based on nixpkgs
-	   	plugin = orgmode;
-		type = "lua";
-		config = toFile ./app/nvim/plugin/orgmode.lua; 
-       }
-
-	   {
-	        ## Define plugin based on nixpkgs
-	   	plugin = gruvbox-nvim;
-		config = "colorscheme gruvbox"; 
-       }
-
-	   {
-	   	plugin = dashboard-nvim; 
-		type = "lua";
-	        ## Define LuaFile using let bindings above 
-		config = toFile ./app/nvim/plugin/dashboard.lua; 
-       }
-	   {
-	   	plugin = telescope-nvim;
-		type = "lua";
-	        ## Define LuaFile using let bindings above 
-		config = toFile ./app/nvim/plugin/telescope.lua; 
-       }
-
-	   {
-	   	plugin = nvim-tree-lua;
-		type = "lua";
-		config = "require(\"nvim-tree\").setup()"; 
-       }
-
-#	   { plugin = neorg;
-#		type = "lua";
-#		config = toFile ./app/nvim/plugin/neorg.lua; 
-#        }
-
-	   { plugin = comment-nvim;
-		type = "lua";
-	        ## Define oneline setup
-		config = "require(\"Comment\").setup()"; 
-        }
-     ];
-
-
-  };
 
 #  programs.alacritty = {
 #    enable = true;

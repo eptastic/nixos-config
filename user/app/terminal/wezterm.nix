@@ -13,6 +13,7 @@
 		config.hide_tab_bar_if_only_one_tab = true
 		config.window_background_opacity = 0.9
 		config.color_scheme = 'Gruvbox Dark (Gogh)'
+		config.default_cwd = '/home/alex/nixos-config/'
 		return config
 	'';
 	#builtins.readFile ./config.lua; 

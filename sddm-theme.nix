@@ -1,12 +1,20 @@
 { pkgs }:
 
+# let
+#   imgLink = "https://github.com/NixOS/nixos-artwork/blob/master/wallpapers/nix-wallpaper-binary-black_8k.png";
+#
+#   image = pkgs.fetchurl {
+# 	url = imgLink;
+# 	sha256 = "1kjziwj0fvj8xm771ady3y3ycfwml7kx32qn38ymsw01fnyvgab5";
+#   };
+# in
 pkgs.stdenv.mkDerivation {
   name = "sddm-theme";
   src = pkgs.fetchFromGitHub {
-    owner = "surajmadalcell";
-	repo = "Elegant-sddm";
-	rev = "3102e880f46a1b72c929d13cd0a3fb64f973952a";
-	sha256 = "0x5sv2l5l4ral8sk4w8aa9w1chh5zhlkq9d6f6798r8xid6iyzfa";
+    owner = "MarianArlt";
+    repo = "sddm-sugar-dark";
+    rev = "ceb2c455663429be03ba62d9f898c571650ef7fe";
+    sha256 = "0153z1kylbhc9d12nxy9vpn0spxgrhgy36wy37pk6ysq7akaqlvy";
   };
   installPhase = ''
   	mkdir -p $out
@@ -14,3 +22,4 @@ pkgs.stdenv.mkDerivation {
    '';
 
 }
+
