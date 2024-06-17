@@ -23,8 +23,19 @@
     ${builtins.readFile ./options.lua}
     
     '';
+
+# Required for adding language servers
+	 extraPackages = with pkgs; [
+		lua-language-server
+		nixd
+		yaml-language-server
+	 ];
+
      plugins = with pkgs.vimPlugins; [
 #      lazy-nvim
+	   nvim-lspconfig
+	   nvim-notify
+	   coq_nvim
        plenary-nvim
        nvim-web-devicons
        telescope-fzf-native-nvim

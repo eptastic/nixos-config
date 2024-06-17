@@ -1,9 +1,28 @@
 -- nvim tree setup
+
+
+
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 -- Custom Parsers directory
 vim.opt.runtimepath:append("/home/alex/.config/nvim/parsers/")
+
+-- LSP
+local lsp = require("lspconfig")
+local coq = require("coq")
+
+--  Language Servers --
+
+-- Lua - lua-language-server
+lsp.lua_ls.setup({})
+-- Nix - nixd
+lsp.nixd.setup {}
+-- -- YAML - yaml-language-server 
+lsp.yamlls.setup {}
+-- -- JSON
+lsp.jsonls.setup {}
+--
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -34,7 +53,7 @@ vim.opt.breakindent = true
 vim.opt.undofile = true
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
-vim.opt.ignorecase = true 
+vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- Keep signcolumn on by default
@@ -43,5 +62,4 @@ vim.opt.signcolumn = 'yes'
 -- Decrease update time
 vim.opt.updatetime = 250
 
--- Set runtimepath for tree-sitter nixpkgs
 
