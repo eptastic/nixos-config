@@ -73,15 +73,11 @@
       nwg-look   
       gtk3
       gtk2
-#	  bibata-cursors
-#	  bibata-extra-cursors
-#	  python3
       zsh
       age
       oh-my-zsh
       wget
       git
-      #ranger # moved to home-manger
       mako
       libnotify # Mako depends on this
       alacritty 
@@ -125,6 +121,7 @@
   # Enable automatic login for the user.
   services.getty.autologinUser = "alex";
 
+  services.journald.extraConfig = "SystemMaxUse=1G";
   # Allow unfree and insecurepackages
   nixpkgs.config.allowUnfree = true;
   # Allow broken packages
@@ -304,6 +301,31 @@
 		startWhenNeeded = true;
 
 	};
+
+	### Stylix ###
+	stylix.enable = true;
+	stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
+	stylix.image = ./system/img/wallpaper/abstract3.jpg;
+
+	stylix.cursor.package = pkgs.bibata-cursors;
+	stylix.cursor.name = "Bibata-Modern-Ice";
+	stylix.cursor.size = 24;
+
+	stylix.fonts = {
+	  monospace = {
+		package = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ];};
+	    name = "JetBrainsMono Nerd Font Mono";
+	  };
+	  sansSerif = {
+		package = pkgs.dejavu_fonts;
+		name = "DejaVu Sans";
+	  };
+	  serif = {
+		package = pkgs.dejavu_fonts;
+		name = "DejaVu Serif";
+	  };
+	};
+
 
 
 }

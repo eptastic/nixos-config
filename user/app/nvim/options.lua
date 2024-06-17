@@ -2,6 +2,9 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+-- Custom Parsers directory
+vim.opt.runtimepath:append("/home/alex/.config/nvim/parsers/")
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -39,3 +42,6 @@ vim.opt.signcolumn = 'yes'
 
 -- Decrease update time
 vim.opt.updatetime = 250
+
+-- Set runtimepath for tree-sitter nixpkgs
+

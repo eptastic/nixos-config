@@ -10,6 +10,8 @@
 	./app/nvim/nvim.nix
 	./app/browser/firefox.nix
 	./app/spotify/spotifyd.nix
+	./app/zsh/zsh.nix
+	./app/git/git.nix
   ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -59,12 +61,13 @@
 
   ];
 
-  home.pointerCursor = {
-	gtk.enable = true;
-	package = pkgs.bibata-cursors;
-	name = "Bibata-Modern-Classic";
-	size = 22;
-  };
+## Disabled Due to stylix conflicting with this.
+#  home.pointerCursor = {
+#	gtk.enable = true;
+#	package = pkgs.bibata-cursors;
+#	name = "Bibata-Modern-Classic";
+#	size = 22;
+#  };
 
 
   nixpkgs.config = {
@@ -93,14 +96,6 @@
 
 
 
-#  programs.alacritty = {
-#    enable = true;
-#	settings = {
-#		window.opacity = 0.90;
-#	};
-#  };
-
-
 
   programs.git = {
     enable = true;
@@ -116,32 +111,6 @@
 	};
   };
 
-  programs.zsh = {
-    enable = true;
-    autosuggestion.enable = true;
-    enableCompletion = true;
-    
-    shellAliases = {
-      ll = "ls -l";
-      ".." = "cd ..";
-      edit = "nvim";
-      vim = "nvim";
-      vi = "nvim";
-      n = "nvim";
-      v = "nvim";
-      nixdefault = "sudo nixos-rebuild switch --flake /home/alex/nixos-config#default";
-      nixconfig = "cd /home/alex/nixos-config/";
-      homeman = "cd /home/alex/nixos-config/user/";
-	  org = "cd /home/alex/Nextcloud/org/";
-	   
-      reload-waybar = "killall -SIGTERM waybar && bash /home/alex/.config/hypr/start.sh";
-      enxcfg = "nvim /home/alex/nixos-config/configuration.nix";
-	  enxhom = "nvim /home/alex/nixos-config/user/home.nix";
-	  nvim_plugin = "cd /home/alex/nixos-config/user/app/nvim/plugin/";
-	  logout = "sudo pkill -KILL -u alex";
-
-    };
-  };
   # Enable Oh My Zsh 
   programs.zsh.oh-my-zsh = {
     enable = true;

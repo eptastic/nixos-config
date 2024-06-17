@@ -10,11 +10,8 @@
       url = "github:nix-community/home-manager"; #/release-23.11"
       inputs.nixpkgs.follows = "nixpkgs";
      };
-## Disabled this shit    
-#    nixvim = {
-#      url = "github:nix-community/nixvim/nixos-23.11";
-#      inputs.nixpkgs.follows = "nixpkgs";
-#    };
+
+	stylix.url = "github:danth/stylix";
 
   };
 
@@ -30,8 +27,9 @@
          modules = [
             ./configuration.nix
 			./system # I think I need to specify a .nix? but the vimjoyer video didnt?
-	    # Below refers to the above INPUTS on line 7!! 
-	    inputs.home-manager.nixosModules.default
+	        # Below refers to the above INPUTS on line 7!! 
+	        inputs.home-manager.nixosModules.default
+			inputs.stylix.nixosModules.stylix
          ];
        };
 		

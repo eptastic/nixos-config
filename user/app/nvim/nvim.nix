@@ -23,24 +23,33 @@
     ${builtins.readFile ./options.lua}
     
     '';
-    plugins = with pkgs.vimPlugins; [
+     plugins = with pkgs.vimPlugins; [
 #      lazy-nvim
        plenary-nvim
        nvim-web-devicons
        telescope-fzf-native-nvim
-	   dashboard-nvim
+       dashboard-nvim
        # Configure treesitter languages
-	   {
-	    plugin = (nvim-treesitter.withPlugins (p: [
-	      p.tree-sitter-nix
-	      p.tree-sitter-vim
-	      p.tree-sitter-bash
-          p.tree-sitter-lua
-         # p.tree-sitter-c
-            ]));
+	   
+	  #   plugin = (nvim-treesitter.withPlugins (p: [
+	  #  		p.nix
+			# p.lua
+			# p.yaml
+	  #  #    p.tree-sitter-nix
+	  #  #    p.tree-sitter-vim
+	  #  #    p.tree-sitter-bash
+   #  #       p.tree-sitter-lua
+		 #  # p.tree-sitter-yaml
+		 #  # p.tree-sitter-jsonc
+		 #  # p.tree-sitter-json
+   #       # p.tree-sitter-c
+   #          ]));
+   	   {
+        plugin = nvim-treesitter.withAllGrammars;
 	    type = "lua";
 	    config = toFile ./plugin/treesitter.lua;
 	   }
+
 
 	   {
 	        ## Define plugin based on nixpkgs

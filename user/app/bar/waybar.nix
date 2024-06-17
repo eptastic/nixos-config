@@ -230,7 +230,9 @@
 	#custom-power {
 	    background-color: #000000;
 	    color: #ffffff;
-		padding: 10px 10px;
+	/* padding is defined top, right, bottom, left */	
+		padding: 0px 20px 0px 10px;
+		font-size: 15pt;
 	}
 
 	#wireplumber {
@@ -402,7 +404,7 @@
 
 	"custom/power" = {
 		format = "{icon}";
-		format-icons = "󰤅";
+		format-icons = "";
 		on-click = "nwg-bar";
 		on-click-right = "killall nwg-bar";
 	};

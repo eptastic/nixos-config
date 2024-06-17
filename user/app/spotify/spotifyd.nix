@@ -13,10 +13,10 @@
 			audio_format = "S16";
 			control = "pipewire";
 			mixer = "PCM";
-			no_audio_cache = "true";
+			no_audio_cache = true;
 			initial_volume = "50";
 			volume_normalisation = true;
-			device_type = "NixOS";
+			device_type = "computer";
 		};
 	};	
 
