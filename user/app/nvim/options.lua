@@ -1,6 +1,3 @@
--- nvim tree setup
-
-
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
@@ -12,6 +9,12 @@ vim.opt.runtimepath:append("/home/alex/.config/nvim/parsers/")
 local lsp = require("lspconfig")
 local coq = require("coq")
 
+-- Coq Settings
+vim.g.coq_settings = {
+	-- Enables autostart for coq - Currently doesnt work.
+	auto_start = true,
+}
+
 --  Language Servers --
 
 -- Lua - lua-language-server
@@ -22,7 +25,8 @@ lsp.nixd.setup {}
 lsp.yamlls.setup {}
 -- -- JSON
 lsp.jsonls.setup {}
---
+
+-- COQ Completion and Snippets
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '

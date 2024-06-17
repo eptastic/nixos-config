@@ -36,6 +36,7 @@
 	   nvim-lspconfig
 	   nvim-notify
 	   coq_nvim
+	   coq-artifacts
        plenary-nvim
        nvim-web-devicons
        telescope-fzf-native-nvim
