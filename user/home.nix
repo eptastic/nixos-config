@@ -37,6 +37,11 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+  	beets
+  	nicotine-plus
+	wlogout
+  	thunderbird
+	birdtray
     nextcloud-client
     ripgrep
     fd

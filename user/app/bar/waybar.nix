@@ -405,8 +405,8 @@
 	"custom/power" = {
 		format = "{icon}";
 		format-icons = "";
-		on-click = "nwg-bar";
-		on-click-right = "killall nwg-bar";
+		on-click = "wlogout";
+		on-click-right = "killall wlogout";
 	};
 	 ## Is scratchpad possible with hyprland? ##
 #	"sway/scratchpad" = {

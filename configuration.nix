@@ -85,7 +85,6 @@
       git
       mako
       libnotify # Mako depends on this
-      alacritty 
       swww # Background images
       rofi-wayland # Application Launcher
       #firefox
@@ -95,6 +94,7 @@
       slurp
       grim
       swappy # Annotated Screenshots
+	  nomacs # Qt-based image viewer
       wl-clipboard
       #ueberzug # Image previews in ranger - Which is no longer maintained
       networkmanagerapplet
