@@ -210,7 +210,7 @@
 	}
 
 	#network {
-	    background-color: #2980b9;
+	    background-color: transparent;
 	}
 
 	#network.disconnected {

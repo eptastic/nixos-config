@@ -37,6 +37,9 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+  	gammastep
+	zathura
+    tree
   	beets
   	nicotine-plus
 	wlogout
