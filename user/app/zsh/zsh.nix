@@ -6,7 +6,7 @@
     enable = true;
     autosuggestion.enable = true;
     enableCompletion = true;
-    
+    initExtra = "fastfetch";
     shellAliases = {
       ll = "ls -la";
       ".." = "cd ..";

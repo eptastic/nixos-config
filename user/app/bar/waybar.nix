@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, ... }:
 
 {
 
@@ -9,6 +9,27 @@
       target = "graphical-session.target";
     };
     style = ''
+
+
+	/* Colors (gruvbox) */
+	@define-color black #282828;
+	@define-color red #cc241d;
+	@define-color green #98971a;
+	@define-color yellow #d79921;
+	@define-color blue #458588;
+	@define-color purple #b16286;
+	@define-color aqua #689d6a;
+	@define-color gray #a89984;
+	@define-color brgray #928374;
+	@define-color brred	#fb4934;
+	@define-color brgreen #b8bb26;
+	@define-color bryellow #fabd2f;
+	@define-color brblue #83a598;
+	@define-color brpurple #d3869b;
+	@define-color braqua #8ec07c;
+	@define-color white #ebdbb2;
+	@define-color bg2 #504945;
+
 	* {
           font-family: JetBrainsMono Nerd Font;
           font-size: 12pt;
@@ -66,8 +87,8 @@
 
 	#workspaces button {
 	    padding: 5px 5px;
-	    background-color: #a81870 /* transparent */;
-	    color: #ffffff;
+	    background-color: transparent;
+	    color: @white;
 	}
 
 	#workspaces button:hover {
@@ -115,11 +136,11 @@
 	#power-profiles-daemon,
 	#mpd {
 	    padding: 0 10px;
-	    color: #ffffff;
+	    color: @white;
 	}
 	#mpris {
 	    padding: 0 10px;
-	    color: #ffffff;
+	    color: @white;
 	}
 
 	#window,
@@ -138,17 +159,7 @@
 	}
 
 	#clock {
-	    background-color: #64727D;
-	}
-
-	#battery {
-	    background-color: #ffffff;
-	    color: #000000;
-	}
-
-	#battery.charging, #battery.plugged {
-	    color: #ffffff;
-	    background-color: #26A65B;
+	    background-color: transparent;
 	}
 
 	@keyframes blink {
@@ -159,34 +170,6 @@
 	}
 
 	/* Using steps() instead of linear as a timing function to limit cpu usage */
-	#battery.critical:not(.charging) {
-	    background-color: #f53c3c;
-	    color: #ffffff;
-	    animation-name: blink;
-	    animation-duration: 0.5s;
-	    animation-timing-function: steps(12);
-	    animation-iteration-count: infinite;
-	    animation-direction: alternate;
-	}
-
-	#power-profiles-daemon {
-	    padding-right: 15px;
-	}
-
-	#power-profiles-daemon.performance {
-	    background-color: #f53c3c;
-	    color: #ffffff;
-	}
-
-	#power-profiles-daemon.balanced {
-	    background-color: #2980b9;
-	    color: #ffffff;
-	}
-
-	#power-profiles-daemon.power-saver {
-	    background-color: #2ecc71;
-	    color: #000000;
-	}
 
 	label:focus {
 	    background-color: #000000;
@@ -210,16 +193,17 @@
 	}
 
 	#network {
+		color: @white;
 	    background-color: transparent;
 	}
 
 	#network.disconnected {
-	    background-color: #f53c3c;
+	    background-color: @red;
 	}
 
 	#pulseaudio {
-	    background-color: #f1c40f;
-	    color: #000000;
+	    background-color: transparent;
+	    color: @white;
 	}
 
 	#pulseaudio.muted {
@@ -228,8 +212,8 @@
 	}
 
 	#custom-power {
-	    background-color: #000000;
-	    color: #ffffff;
+	    background-color: transparent;
+	    color: @white;
 	/* padding is defined top, right, bottom, left */	
 		padding: 0px 20px 0px 10px;
 		font-size: 15pt;
@@ -267,7 +251,7 @@
 	}
 
 	#tray {
-	    background-color: #2980b9;
+	    background-color: transparent;
 	}
 
 	#tray > .passive {
@@ -280,7 +264,7 @@
 	}
 
 	#idle_inhibitor {
-	    background-color: #2d3436;
+	    background-color: transparent;
 	}
 
 	#idle_inhibitor.activated {

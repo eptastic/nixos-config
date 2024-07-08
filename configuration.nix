@@ -32,6 +32,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Fixed that issue where my 2nd workspace wasn't working
+  boot.kernelParams = [ "nvidia_drm.fbdev=1" ];
+
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -71,7 +74,10 @@
     description = "Alex Mathison";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-    
+	
+
+	  bc # used for weather widget 
+	  jq # Used for weather widget
 	  #(if pkgs.obsidian.version == "1.5.3" then electron-25.9.0 else obsidian)
 	  obsidian
 	  nwg-bar
@@ -113,6 +119,9 @@
 
     ];
   };
+
+  # Required for Hyprlock to see PAM module. See https://mynixos.com/home-manager/option/programs.hyprlock.enable for more details
+  security.pam.services.hyprlock = {};	
 
   # Imports home.nix to configure home-manager for user Alex
   home-manager = {
@@ -183,15 +192,6 @@
     settings.PasswordAuthentication = false;
   };
 
-#  users.users.alex.openssh.authorizedKeys.keys = [
-#
-#    "[172.16.20.1]:6633 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNVTXsnwG08BI8NGQpBgLIBk1HCsyJP/fEEISRyM285USvBqbsBcpO0ws09InB2s06/4AGF8ho1al2nLETsl7eQ="
-#    "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl"
-#    "github.com ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg="
-#    "172.16.20.1 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEv6JgC12mZNAEzZA9O0suyYoyMMAOYEJpWZd87E9oJ+90qAzUAfva1ZUDXruHHX+o3MAOnfgx3rr/d59d0th2Q="
-#    "github.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCj7ndNxQowgcQnjshcLrqPEiiphnt+VTTvDP6mHBL9j1aNUkY4Ue1gvwnGLVlOhGeYrnZaMgRK6+PKCUXaDbC7qtbW8gIkhL7aGCsOr/C56SJMy/BCZfxd1nWzAOxSDPgVsmerOBYfNqltV9/hWCqBywINIR+5dIg6JTJ72pcEpEjcYgXkE2YEFXV1JHnsKgbLWNlhScqb2UmyRkQyytRLtL+38TGxkxCflmO+5Z8CSSNY7GidjMIZ7Q4zMjA2n1nGrlTDkzwDCsw+wqFPGQA179cnfGWOWRVruj16z6XyvxvjJwbz0wQZ75XK5tKSb7FNyeIEs4TT4jk+S4dhPeAUC5y+bDYirYgM4GC7uEnztnZyaVWQ7B381AK4Qdrwt51ZqExKbQpTUNn+EjqoTwvqNj4kqx5QUCI0ThS/YkOxJCXmPUWZbhjpCg56i+2aB6CmK2JGhn57K5mj0MNdBXA4/WnwH6XoPWJzK5Nyu2zB3nAZp+S5hpQs+p1vN1/wsjk="
-#
-#    ];
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
