@@ -9,7 +9,6 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./main-user.nix
-      #nixvim.homeManagerModules.nixvim
       #../../common/core/sops.nix
       #inputs.home-manager.nixosModules.default
       #inputs.sops-nix.nixosModules.sops
@@ -78,7 +77,6 @@
 
 	  bc # used for weather widget 
 	  jq # Used for weather widget
-	  #(if pkgs.obsidian.version == "1.5.3" then electron-25.9.0 else obsidian)
 	  obsidian
 	  nwg-bar
       nwg-look   
@@ -93,8 +91,6 @@
       libnotify # Mako depends on this
       swww # Background images
       rofi-wayland # Application Launcher
-      #firefox
-      #neofetch
       discord
       pavucontrol
       slurp
@@ -102,19 +98,12 @@
       swappy # Annotated Screenshots
 	  nomacs # Qt-based image viewer
       wl-clipboard
-      #ueberzug # Image previews in ranger - Which is no longer maintained
       networkmanagerapplet
       killall
-	  #elegant-sddm # SDDM Theme
-      #greetd.greetd
-     # greetd.regreet
-	  swaylock
-	  swaylock-fancy
 	  hypridle
       sops
       bat
 	  audacity
-	  gtklock
 	  mpd
 
     ];
@@ -150,9 +139,9 @@
 #    };
 #  };
   services.displayManager.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
-  services.displayManager.sddm.enable = true; 
-  services.displayManager.sddm.theme = "${import ./sddm-theme.nix { inherit pkgs; }}";
+  #services.displayManager.sddm.wayland.enable = true;
+  #services.displayManager.sddm.enable = true; 
+  #services.displayManager.sddm.theme = "${import ./sddm-theme.nix { inherit pkgs; }}";
 
   qt.enable = true;
 	
@@ -323,11 +312,11 @@
 	  };
 	  sansSerif = {
 		package = pkgs.dejavu_fonts;
-		name = "DejaVu Sans";
+		name = "JetBrainsMono Nerd Font Mono";
 	  };
 	  serif = {
 		package = pkgs.dejavu_fonts;
-		name = "DejaVu Serif";
+		name = "JetBrainsMono Nerd Font Mono";
 	  };
 	};
 

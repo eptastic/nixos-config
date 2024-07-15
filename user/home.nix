@@ -12,6 +12,7 @@
 	./app/spotify/spotifyd.nix
 	./app/zsh/zsh.nix
 	./app/git/git.nix
+	./app/fastfetch/fastfetch.nix
   ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -38,7 +39,7 @@
   # environment.
   home.packages = with pkgs; [
   	geoclue2 # Required for gammastep
-	hyprlock
+	#hyprlock
   	gammastep
 	zathura
     tree
@@ -56,7 +57,7 @@
 	spicetify-cli
 	spotifyd
 	playerctl
-	fastfetch
+	#fastfetch
 	hyprcursor
 	lazygit
 	#chafa # Required for Image Previews for LF
@@ -104,7 +105,7 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-
+  programs.hyprlock.enable = true;
 
 
   programs.git = {
@@ -131,11 +132,18 @@
   services.mako = {
     enable = true;
     icons = true;
-    defaultTimeout = 2000;
+
+	# Sytling
+    defaultTimeout = 5000;
+	borderRadius = 15;
+
   };
 
   services.nextcloud-client = {
     enable = true;
     startInBackground = false;
   };
+
+
+
 }

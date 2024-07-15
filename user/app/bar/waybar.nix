@@ -389,7 +389,7 @@
 	"custom/power" = {
 		format = "{icon}";
 		format-icons = "";
-		on-click = "wlogout";
+		on-click = "wlogout -b 2 -m 250";
 		on-click-right = "killall wlogout";
 	};
 	 ## Is scratchpad possible with hyprland? ##
