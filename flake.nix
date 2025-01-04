@@ -11,11 +11,19 @@
       inputs.nixpkgs.follows = "nixpkgs";
      };
 
-	stylix.url = "github:danth/stylix";
+		stylix = {
+			url = "github:danth/stylix";
+			inputs.nixpkgs.follows = "nixpkgs";
+		};
+		
+		sops-nix = {
+			url =  "github:Mic92/sops-nix";
+			inputs.nixpkgs.follows = "nixpkgs";
+		};
 
   };
 
-  outputs = { self, nixpkgs, ... }@inputs: 
+  outputs = { nixpkgs, ... }@inputs: 
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -25,11 +33,12 @@
      nixosConfigurations.default = nixpkgs.lib.nixosSystem {
          specialArgs = {inherit inputs;};
          modules = [
-            ./configuration.nix
-			./system # I think I need to specify a .nix? but the vimjoyer video didnt?
+          ./configuration.nix
+					./system 
 	        # Below refers to the above INPUTS on line 7!! 
 	        inputs.home-manager.nixosModules.default
-			inputs.stylix.nixosModules.stylix
+					inputs.stylix.nixosModules.stylix
+					inputs.sops-nix.nixosModules.sops
          ];
        };
 		

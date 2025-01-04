@@ -1,0 +1,11 @@
+keys:
+  #  - &users:
+    - &alex age1qaxfw7w2ylzyapqgkvydw8jntq54mvv2eqspazerfkme6pquadvszg2dqm
+    #  - &hosts:
+    #- &nixos age156vs5yttfpslez0x6k7zzy9j7ehmtle0j2zlmu8jr05z590h8qkq5s5pk9
+creation_rules:
+  - path_regex: system/security/secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+        - *alex
+        #    - *nixos

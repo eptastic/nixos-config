@@ -38,37 +38,47 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-  	geoclue2 # Required for gammastep
-	#hyprlock
-  	gammastep
-	zathura
-    tree
-  	beets
-  	nicotine-plus
-	wlogout
-  	thunderbird
-	birdtray
-    nextcloud-client
-    ripgrep
-    fd
-    fzf
-	gcc # Required for Tree-sitter
-	spotify
-	spicetify-cli
-	spotifyd
-	playerctl
-	#fastfetch
-	hyprcursor
-	lazygit
-	#chafa # Required for Image Previews for LF
-	ueberzugpp
-	vencord
-	vesktop
-	swappy
-	waypaper
-	cava
-	(mpv.override {scripts = [mpvScripts.mpris];})
-	hyprpicker
+			angryipscanner
+			runelite
+			signal-desktop-beta
+			#prismlauncher
+      
+#			prismlauncher.override { jdks = [ pkgs.temurin-bin-17 ]; }
+				#jre8 # Required for atlauncher 
+			#atlauncher
+			zola
+			geoclue2 # Required for gammastep
+			#hyprlock
+			gammastep
+			zathura
+			tree
+			beets
+			nicotine-plus
+			wlogout
+			thunderbird
+			nextcloud-client
+			ripgrep
+			fd
+			fzf
+			gcc # Required for Tree-sitter
+			spotify
+			spicetify-cli
+			spotifyd
+			playerctl
+			#fastfetch
+			hyprcursor
+			lazygit
+			#chafa # Required for Image Previews for LF
+			ueberzugpp
+			vencord
+			vesktop
+			swappy
+			waypaper
+			cava
+			(mpv.override {scripts = [mpvScripts.mpris];})
+			hyprpicker
+			syncthing
+			syncthingtray
 
   ];
 

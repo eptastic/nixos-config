@@ -11,18 +11,16 @@
       ./main-user.nix
       #../../common/core/sops.nix
       #inputs.home-manager.nixosModules.default
-      #inputs.sops-nix.nixosModules.sops
+      inputs.sops-nix.nixosModules.sops
     ];
+	
+	sops = {
+		defaultSopsFile = ./system/security/secrets/secrets.yaml;
+		defaultSopsFormat = "yaml";
+		age.keyFile = "/home/alex/.config/sops/age/keys.txt";
+		secrets.hello = {};
+	};
 
-#  sops.defaultSopsFile = ../../secrets/secrets.yaml;
-#  sops.defaultSopsFormat = "yaml";
-
-#  sops.age.keyFile = "/home/user/.config/sops/age/keys.txt";
-  
-#  sops.secrets.example-key = {};
-#  sops.secrets."myservice/my_subdir/my_secret" = {
-#    owner = "alex";
-#  };
 
   main-user.enable = true;
   main-user.userName = "alex";
@@ -33,6 +31,13 @@
 
   # Fixed that issue where my 2nd workspace wasn't working
   boot.kernelParams = [ "nvidia_drm.fbdev=1" ];
+
+	# Disable Hibernation and Sleep.	
+  #systemd.targets.sleep.enable = false;
+  systemd.targets.suspend.enable = false;
+  systemd.targets.hibernate.enable = false;
+  systemd.targets.hybrid-sleep.enable = false;
+
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -75,6 +80,7 @@
     packages = with pkgs; [
 	
 
+		nwg-displays
 	  bc # used for weather widget 
 	  jq # Used for weather widget
 	  obsidian
@@ -132,16 +138,17 @@
 
  # Greetd
 #  services.greetd.enable = true;
-#  services.greetd.settings = rec {
+#  services.greetd.settings = {
 #    inital_session = {
 #    	command = "${pkgs.hyprland}/bin/Hyprland"; # it used to be {pkgs.greetd.reetd}
 #		user = "alex";
 #    };
 #  };
+
   services.displayManager.enable = true;
-  #services.displayManager.sddm.wayland.enable = true;
-  #services.displayManager.sddm.enable = true; 
-  #services.displayManager.sddm.theme = "${import ./sddm-theme.nix { inherit pkgs; }}";
+  services.displayManager.sddm.wayland.enable = true;
+  services.displayManager.sddm.enable = true; 
+  services.displayManager.sddm.theme = "${import ./sddm-theme.nix { inherit pkgs; }}";
 
   qt.enable = true;
 	
@@ -151,8 +158,8 @@
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
-	libsForQt5.qt5.qtquickcontrols2
-	libsForQt5.qt5.qtgraphicaleffects
+	  libsForQt5.qt5.qtquickcontrols2
+		libsForQt5.qt5.qtgraphicaleffects
 
     
   ];
@@ -181,12 +188,12 @@
     settings.PasswordAuthentication = false;
   };
 
-
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = true;
+  networking.firewall.allowPing = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

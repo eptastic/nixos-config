@@ -15,12 +15,33 @@ vim.g.coq_settings = {
 	auto_start = true,
 }
 
+
 --  Language Servers --
 
 -- Lua - lua-language-server
 lsp.lua_ls.setup({})
--- Nix - nixd
-lsp.nixd.setup {}
+-- Nix - nixd - with alejandra for code formatting for nix
+lsp.nixd.setup({
+  cmd = { "nixd" },
+  settings = {
+    nixd = {
+      nixpkgs = {
+        expr = "import <nixpkgs> { }",
+      },
+      formatting = {
+        command = { "alejandra" }, -- or nixfmt or nixpkgs-fmt
+      },
+      -- options = {
+      --   nixos = {
+      --       expr = '(builtins.getFlake "/PATH/TO/FLAKE").nixosConfigurations.CONFIGNAME.options',
+      --   },
+      --   home_manager = {
+      --       expr = '(builtins.getFlake "/PATH/TO/FLAKE").homeConfigurations.CONFIGNAME.options',
+      --   },
+      -- },
+    },
+  },
+})
 -- -- YAML - yaml-language-server 
 lsp.yamlls.setup {}
 -- -- JSON
@@ -38,8 +59,8 @@ vim.wo.relativenumber = true
 
 vim.o.signcolumn = 'yes'
 
-vim.o.tabstop = 4
-vim.o.shiftwidth = 4
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
 
 vim.o.updatetime = 300
 
@@ -66,4 +87,12 @@ vim.opt.signcolumn = 'yes'
 -- Decrease update time
 vim.opt.updatetime = 250
 
+-- Custom Shortcuts
+
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
+vim.keymap.set('n', '<leader>fs', builtin.git_status, { desc = 'Telescope list changes per file with diff preview' })
+
+vim.keymap.set("n", "<leader>ft", require("nvim-tree.api").tree.toggle, { desc = "Toggle Nvim-Tree" })
 
