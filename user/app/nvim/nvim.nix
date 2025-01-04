@@ -83,7 +83,7 @@
       {
         plugin = nvim-tree-lua;
         type = "lua";
-        config = "require(\"nvim-tree\").setup()";
+#        config = "require(\"nvim-tree\").setup()";
       }
 
       #	   { plugin = neorg;

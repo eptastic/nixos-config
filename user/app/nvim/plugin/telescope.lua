@@ -11,3 +11,10 @@ require('telescope').setup({
 })
 
 require('telescope').load_extension('fzf')
+
+-- Custom Shortcuts
+
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
+vim.keymap.set('n', '<leader>fs', builtin.git_status, { desc = 'Telescope list changes per file with diff preview' })

@@ -117,6 +117,16 @@
 
   programs.hyprlock.enable = true;
 
+	programs.ssh = {
+    enable = true;
+    matchBlocks = {
+      "spicems" = {
+        hostname = "172.16.20.1";
+        user = "alex";
+        identityFile = "/run/secrets/ssh_keys/spicems";
+      };
+    };
+  };
 
   programs.git = {
     enable = true;

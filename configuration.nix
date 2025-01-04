@@ -1,26 +1,31 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, inputs, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./main-user.nix
-      #../../common/core/sops.nix
-      #inputs.home-manager.nixosModules.default
-      inputs.sops-nix.nixosModules.sops
-    ];
-	
-	sops = {
-		defaultSopsFile = ./system/security/secrets/secrets.yaml;
-		defaultSopsFormat = "yaml";
-		age.keyFile = "/home/alex/.config/sops/age/keys.txt";
-		secrets.hello = {};
-	};
+  config,
+  pkgs,
+  inputs,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./main-user.nix
+    #../../common/core/sops.nix
+    #inputs.home-manager.nixosModules.default
+    inputs.sops-nix.nixosModules.sops
+  ];
 
+  sops = {
+    defaultSopsFile = ./system/security/secrets/secrets.yaml;
+    defaultSopsFormat = "yaml";
+    age.keyFile = "/home/alex/.config/sops/age/keys.txt";
+    secrets.hello = {}; #Example
+    secrets."ssh_keys/spicems" = {
+      owner = config.users.users.alex.name;
+      group = config.users.users.alex.group;
+    };
+  };
 
   main-user.enable = true;
   main-user.userName = "alex";
@@ -30,14 +35,14 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Fixed that issue where my 2nd workspace wasn't working
-  boot.kernelParams = [ "nvidia_drm.fbdev=1" ];
+  boot.kernelParams = ["nvidia_drm.fbdev=1"];
 
-	# Disable Hibernation and Sleep.	
-  #systemd.targets.sleep.enable = false;
-  systemd.targets.suspend.enable = false;
-  systemd.targets.hibernate.enable = false;
-  systemd.targets.hybrid-sleep.enable = false;
-
+  # Disable Hibernation and Sleep.
+  systemd.targets = {
+    suspend.enable = false;
+    hibernate.enable = false;
+    hybrid-sleep.enable = false;
+  };
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -66,26 +71,28 @@
     LC_TELEPHONE = "en_AU.UTF-8";
     LC_TIME = "en_AU.UTF-8";
   };
+	
+	# SSD Best Practises
+	fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
+	services.fstrim.enable = true;
 
   # Allow USB to wake the computer
   services.udev.extraRules = ''
-	ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTR{power/wakeup}="enabled"
+    ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTR{power/wakeup}="enabled"
   '';
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.alex = {
     isNormalUser = true;
     description = "Alex Mathison";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
     packages = with pkgs; [
-	
-
-		nwg-displays
-	  bc # used for weather widget 
-	  jq # Used for weather widget
-	  obsidian
-	  nwg-bar
-      nwg-look   
+      nwg-displays
+      bc # used for weather widget
+      jq # Used for weather widget
+      obsidian
+      nwg-bar
+      nwg-look
       gtk3
       gtk2
       zsh
@@ -102,26 +109,25 @@
       slurp
       grim
       swappy # Annotated Screenshots
-	  nomacs # Qt-based image viewer
+      nomacs # Qt-based image viewer
       wl-clipboard
       networkmanagerapplet
       killall
-	  hypridle
+      hypridle
       sops
       bat
-	  audacity
-	  mpd
-
+      audacity
+      mpd
     ];
   };
 
   # Required for Hyprlock to see PAM module. See https://mynixos.com/home-manager/option/programs.hyprlock.enable for more details
-  security.pam.services.hyprlock = {};	
+  security.pam.services.hyprlock = {};
 
   # Imports home.nix to configure home-manager for user Alex
   home-manager = {
     useGlobalPkgs = true;
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = {inherit inputs;};
     users = {
       "alex" = import ./user/home.nix;
     };
@@ -136,41 +142,37 @@
   # Allow broken packages
   nixpkgs.config.allowBroken = true;
 
- # Greetd
-#  services.greetd.enable = true;
-#  services.greetd.settings = {
-#    inital_session = {
-#    	command = "${pkgs.hyprland}/bin/Hyprland"; # it used to be {pkgs.greetd.reetd}
-#		user = "alex";
-#    };
-#  };
+  # Greetd
+  #  services.greetd.enable = true;
+  #  services.greetd.settings = {
+  #    inital_session = {
+  #    	command = "${pkgs.hyprland}/bin/Hyprland"; # it used to be {pkgs.greetd.reetd}
+  #		user = "alex";
+  #    };
+  #  };
 
   services.displayManager.enable = true;
   services.displayManager.sddm.wayland.enable = true;
-  services.displayManager.sddm.enable = true; 
-  services.displayManager.sddm.theme = "${import ./sddm-theme.nix { inherit pkgs; }}";
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.theme = "${import ./sddm-theme.nix {inherit pkgs;}}";
 
   qt.enable = true;
-	
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
-	  libsForQt5.qt5.qtquickcontrols2
-		libsForQt5.qt5.qtgraphicaleffects
-
-    
+    libsForQt5.qt5.qtquickcontrols2
+    libsForQt5.qt5.qtgraphicaleffects
   ];
-  
-  
+
   # Fonts
-  
+
   fonts.packages = with pkgs; [
     nerdfonts
     #(nerdfonts.override { fonts = [ "CaskaydiaCove Nerd Font" ]; })
-    ];
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -204,12 +206,12 @@
   system.stateVersion = "23.11"; # Did you read the comment?
 
   # Enable Flakes and Nix Command
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # Enabling H Y P R L A N D
   programs.hyprland = {
     enable = true;
-	#package = inputs.hyprland.packages."${pkgs.system}".hyprland;
+    #package = inputs.hyprland.packages."${pkgs.system}".hyprland;
     xwayland.enable = true;
   };
   environment.sessionVariables = {
@@ -221,15 +223,14 @@
     XDG_SESSION_DESKTOP = "Hyprland";
   };
 
-
- # Enabling ZSH?
+  # Enabling ZSH?
   programs.zsh = {
     enable = true;
   };
 
-# Enabling nvidia gpu
-   
-  services.xserver.videoDrivers = [ "nvidia" ];
+  # Enabling nvidia gpu
+
+  services.xserver.videoDrivers = ["nvidia"];
   hardware.opengl = {
     enable = true;
     driSupport = true;
@@ -238,7 +239,7 @@
   hardware.nvidia = {
     modesetting.enable = true;
     open = false;
-    #powerManagement.enable = false; #Experimental, and can cause sleep/suspend to fail 
+    #powerManagement.enable = false; #Experimental, and can cause sleep/suspend to fail
     #powerManagement.finegrained = false; # Only works on Turing GPUs or newer
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
@@ -246,15 +247,15 @@
 
   programs.steam = {
     enable = true;
-	remotePlay.openFirewall = true;
-	dedicatedServer.openFirewall = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
   };
 
   ## Desktop Portals - Screensharing etc
   # Disabled to run xorg temporarily
   xdg.portal.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  
+  xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-gtk];
+
   ## Enable Sound
   sound.enable = false; #Meant to ALSA configs
   security.rtkit.enable = true;
@@ -264,69 +265,64 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
-    
   };
 
   ## Enabling regreet and setting custom config directory"
-#  programs.regreet = {
-#    enable = true;
-#    settings = {
-#      backgroud = {
-#        path = "/usr/share/backgrounds/light-painting-rocks.jpg";
-#	fit = "Contain";
-#      };
-#      GTK = {
-#      application_prefer_dark_theme = true;
-#	  font_name = "CaskaydiaCove Nerd Font";
-#	  theme_name =  "Adwaita";
-#      };
-#      commands = {
-#        reboot = [ "systemctl" "reboot" ];
-#	poweroff = [ "systemctl" "poweroff" ];
-#      };
-#    }; 
-#
-#  };
+  #  programs.regreet = {
+  #    enable = true;
+  #    settings = {
+  #      backgroud = {
+  #        path = "/usr/share/backgrounds/light-painting-rocks.jpg";
+  #	fit = "Contain";
+  #      };
+  #      GTK = {
+  #      application_prefer_dark_theme = true;
+  #	  font_name = "CaskaydiaCove Nerd Font";
+  #	  theme_name =  "Adwaita";
+  #      };
+  #      commands = {
+  #        reboot = [ "systemctl" "reboot" ];
+  #	poweroff = [ "systemctl" "poweroff" ];
+  #      };
+  #    };
+  #
+  #  };
 
-	services.mpd = {
-		enable = true;
-		musicDirectory = "/home/alex/music";
-		extraConfig = ''
-			audio_output {
-				type "pulse"
-				name "My PulseAudio"
-			}
-		'';
-		user = "alex";
-		network.listenAddress = "any";
-		startWhenNeeded = true;
+  services.mpd = {
+    enable = true;
+    musicDirectory = "/home/alex/music";
+    extraConfig = ''
+      audio_output {
+      	type "pulse"
+      	name "My PulseAudio"
+      }
+    '';
+    user = "alex";
+    network.listenAddress = "any";
+    startWhenNeeded = true;
+  };
 
-	};
+  ### Stylix ###
+  stylix.enable = true;
+  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
+  stylix.image = ./system/img/wallpaper/abstract3.jpg;
 
-	### Stylix ###
-	stylix.enable = true;
-	stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
-	stylix.image = ./system/img/wallpaper/abstract3.jpg;
+  stylix.cursor.package = pkgs.bibata-cursors;
+  stylix.cursor.name = "Bibata-Modern-Ice";
+  stylix.cursor.size = 24;
 
-	stylix.cursor.package = pkgs.bibata-cursors;
-	stylix.cursor.name = "Bibata-Modern-Ice";
-	stylix.cursor.size = 24;
-
-	stylix.fonts = {
-	  monospace = {
-		package = pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ];};
-	    name = "JetBrainsMono Nerd Font Mono";
-	  };
-	  sansSerif = {
-		package = pkgs.dejavu_fonts;
-		name = "JetBrainsMono Nerd Font Mono";
-	  };
-	  serif = {
-		package = pkgs.dejavu_fonts;
-		name = "JetBrainsMono Nerd Font Mono";
-	  };
-	};
-
-
-
+  stylix.fonts = {
+    monospace = {
+      package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
+      name = "JetBrainsMono Nerd Font Mono";
+    };
+    sansSerif = {
+      package = pkgs.dejavu_fonts;
+      name = "JetBrainsMono Nerd Font Mono";
+    };
+    serif = {
+      package = pkgs.dejavu_fonts;
+      name = "JetBrainsMono Nerd Font Mono";
+    };
+  };
 }

@@ -89,10 +89,6 @@ vim.opt.updatetime = 250
 
 -- Custom Shortcuts
 
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-vim.keymap.set('n', '<leader>fs', builtin.git_status, { desc = 'Telescope list changes per file with diff preview' })
-
+require("nvim-tree").setup()
 vim.keymap.set("n", "<leader>ft", require("nvim-tree.api").tree.toggle, { desc = "Toggle Nvim-Tree" })
 
