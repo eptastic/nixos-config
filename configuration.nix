@@ -31,11 +31,12 @@
   main-user.userName = "alex";
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  # Fixed that issue where my 2nd workspace wasn't working
-  boot.kernelParams = ["nvidia_drm.fbdev=1"];
+  boot = {
+    loader.systemd-boot.enable = true;
+    loader.efi.canTouchEfiVariables = true;
+    # Fixed that issue where my 2nd workspace wasn't working
+    kernelParams = ["nvidia_drm.fbdev=1"];
+  };
 
   # Disable Hibernation and Sleep.
   systemd.targets = {
@@ -44,15 +45,11 @@
     hybrid-sleep.enable = false;
   };
 
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
+  networking = {
+    hostName = "nixos"; # Define your hostname.
+    # Enable networking
+    networkmanager.enable = true;
+  };
 
   # Set your time zone.
   time.timeZone = "Australia/Melbourne";
@@ -71,15 +68,16 @@
     LC_TELEPHONE = "en_AU.UTF-8";
     LC_TIME = "en_AU.UTF-8";
   };
-	
-	# SSD Best Practises
-	fileSystems."/".options = [ "noatime" "nodiratime" "discard" ];
-	services.fstrim.enable = true;
 
-  # Allow USB to wake the computer
-  services.udev.extraRules = ''
-    ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTR{power/wakeup}="enabled"
-  '';
+  # SSD Best Practises
+  fileSystems."/".options = ["noatime" "nodiratime" "discard"];
+  services = {
+    fstrim.enable = true;
+    # Allow USB to wake the computer
+    udev.extraRules = ''
+      ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTR{power/wakeup}="enabled"
+    '';
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.alex = {
@@ -303,26 +301,29 @@
   };
 
   ### Stylix ###
-  stylix.enable = true;
-  stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
-  stylix.image = ./system/img/wallpaper/abstract3.jpg;
 
-  stylix.cursor.package = pkgs.bibata-cursors;
-  stylix.cursor.name = "Bibata-Modern-Ice";
-  stylix.cursor.size = 24;
-
-  stylix.fonts = {
-    monospace = {
-      package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
-      name = "JetBrainsMono Nerd Font Mono";
+  stylix = {
+    enable = true;
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
+    image = ./system/img/wallpaper/abstract3.jpg;
+    cursor = {
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Ice";
+      size = 24;
     };
-    sansSerif = {
-      package = pkgs.dejavu_fonts;
-      name = "JetBrainsMono Nerd Font Mono";
-    };
-    serif = {
-      package = pkgs.dejavu_fonts;
-      name = "JetBrainsMono Nerd Font Mono";
+    fonts = {
+      monospace = {
+        package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
+        name = "JetBrainsMono Nerd Font Mono";
+      };
+      sansSerif = {
+        package = pkgs.dejavu_fonts;
+        name = "JetBrainsMono Nerd Font Mono";
+      };
+      serif = {
+        package = pkgs.dejavu_fonts;
+        name = "JetBrainsMono Nerd Font Mono";
+      };
     };
   };
 }
