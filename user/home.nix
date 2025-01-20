@@ -42,7 +42,6 @@
 			runelite
 			signal-desktop-beta
 			#prismlauncher
-      
 #			prismlauncher.override { jdks = [ pkgs.temurin-bin-17 ]; }
 				#jre8 # Required for atlauncher 
 			#atlauncher
@@ -72,6 +71,7 @@
 			ueberzugpp
 			vencord
 			vesktop
+			webcord
 			swappy
 			waypaper
 			cava
@@ -128,19 +128,6 @@
     };
   };
 
-  programs.git = {
-    enable = true;
-    userName = "eptastic";
-    userEmail = "github.9uvss@aleeas.com";
-    aliases = {
-      pu = "push";
-      co = "checkout";
-      cm = "commit";
-     };
-	extraConfig = {
-	  init.defaultBranch = "master";
-	};
-  };
 
   # Enable Oh My Zsh 
   programs.zsh.oh-my-zsh = {
@@ -152,10 +139,9 @@
   services.mako = {
     enable = true;
     icons = true;
-
-	# Sytling
-    defaultTimeout = 5000;
-	borderRadius = 15;
+		# Sytling
+		defaultTimeout = 5000;
+		borderRadius = 15;
 
   };
 

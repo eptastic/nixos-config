@@ -354,7 +354,7 @@
         position = "top";
 	#height = 30;
 	spacing = 10;
-	output = [ "DP-2" ];
+	output = [ "DP-2" "HDMI-A-1" ];
 	modules-left = [ /* "mpd" */ "mpris" "idle_inhibitor"];
 	modules-center =  [ "hyprland/workspaces" ];
 	modules-right = [  
@@ -362,7 +362,7 @@
         "network"
         "tray"
         "clock"
-		"custom/power"
+				"custom/power"
 	];
 
 	# Modules Configuration

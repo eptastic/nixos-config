@@ -1,4 +1,4 @@
-{ pkgs, config, lib, ... }:
+{ ... }:
 
 {
   programs.git = {
@@ -6,7 +6,8 @@
     userName = "eptastic";
     userEmail = "github.9uvss@aleeas.com";
     aliases = {
-      pu = "push";
+			s = "status";
+      p = "push";
       co = "checkout";
       cm = "commit";
      };
