@@ -21,13 +21,17 @@
 			
 
 		  reload-waybar = "killall -SIGTERM waybar && bash /home/alex/.config/hypr/start.sh";
-	  	enxcfg = "nvim /home/alex/nixos-config/configuration.nix";
-			enxhom = "nvim /home/alex/nixos-config/user/home.nix";
+	  	cfg = "nvim /home/alex/nixos-config/configuration.nix";
+			hm = "nvim /home/alex/nixos-config/user/home.nix";
 			nvim_plugin = "cd /home/alex/nixos-config/user/app/nvim/plugin/";
 			logout = "sudo pkill -KILL -u alex";
 
+			zsh = "source ~/.zshrc";
+
 			# Git Aliases
-			gs = "git status";
+			gs = "git status -s";
+
+			ga = "git add";
 			
 			# Cat = Bat
 			cat = "bat";
