@@ -36,7 +36,16 @@
     loader.efi.canTouchEfiVariables = true;
     # Fixed that issue where my 2nd workspace wasn't working
     kernelParams = ["nvidia_drm.fbdev=1"];
+		# Allow to build aarch64 systems
+		binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
+
+	system = {
+		autoUpgrade = {
+			enable = true;
+			allowReboot = true;
+		};
+	};
 
   # Disable Hibernation and Sleep.
   systemd.targets = {
