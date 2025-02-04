@@ -38,6 +38,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+			monero-gui
 			angryipscanner
 			runelite
 			signal-desktop-beta
@@ -49,7 +50,6 @@
 			geoclue2 # Required for gammastep
 			#hyprlock
 			gammastep
-			zathura
 			tree
 			beets
 			nicotine-plus
@@ -125,6 +125,11 @@
         user = "alex";
         identityFile = "/run/secrets/ssh_keys/spicems";
       };
+			"monero_nix" = {
+				hostname = "172.16.20.10";
+				user = "alex";
+				identityFile = "/run/secrets/ssh_keys/monero_nix";
+			};
     };
   };
 

@@ -1,0 +1,21 @@
+{
+  description = "A NixOS Monero Node Flake";
+
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+  };
+
+  outputs = { nixpkgs, ... }:
+    let
+      system = "x86_64-linux";
+    in
+     {
+       nixosConfigurations.monero-node = nixpkgs.lib.nixosSystem {
+	 system = system;
+	 modules = [
+	   ./configuration.nix
+	   ./hardware-configuration.nix
+	 ];
+       };
+     };
+}

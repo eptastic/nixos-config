@@ -25,6 +25,10 @@
       owner = config.users.users.alex.name;
       group = config.users.users.alex.group;
     };
+		secrets."ssh_keys/monero_nix" = {
+      owner = config.users.users.alex.name;
+      group = config.users.users.alex.group;
+		};
   };
 
   main-user.enable = true;

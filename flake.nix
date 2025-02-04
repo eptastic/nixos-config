@@ -30,19 +30,28 @@
     in
     {
 
-     nixosConfigurations.default = nixpkgs.lib.nixosSystem {
-         specialArgs = {inherit inputs;};
-         modules = [
-          ./configuration.nix
-					./system 
-	        # Below refers to the above INPUTS on line 7!! 
-	        inputs.home-manager.nixosModules.default
-					inputs.stylix.nixosModules.stylix
-					inputs.sops-nix.nixosModules.sops
-         ];
-       };
+     nixosConfigurations = {
+		   default = nixpkgs.lib.nixosSystem {
+			   specialArgs = {inherit inputs;};
+					 modules = [
+						 ./configuration.nix
+						 ./system 
+						 # Below refers to the above INPUTS on line 7!! 
+						 inputs.home-manager.nixosModules.default
+						 inputs.stylix.nixosModules.stylix
+						 inputs.sops-nix.nixosModules.sops
+					 ];
+				 };
 		
-	   homeManagerModules.default = ./user;
+	       homeManagerModules.default = ./user;
 
+			## Monero_Nix Configuration
+		   monero_nix = nixpkgs.lib.nixosSystem {
+			   modules = [
+				   ./hosts/monero_nix/configuration.nix
+					 ./hosts/monero_nix/hardware-configuration.nix
+				 ];
+			 };
+		 };
     };
 }
