@@ -8,7 +8,7 @@
 	./app/terminal/wezterm.nix
 	./app/bar/waybar.nix
 	./app/nvim/nvim.nix
-	./app/browser/firefox.nix
+	./app/browser/firefox/firefox.nix
 	./app/spotify/spotifyd.nix
 	./app/zsh/zsh.nix
 	./app/git/git.nix
@@ -38,14 +38,18 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+			qmk
+			keymapviz
 			monero-gui
 			angryipscanner
 			runelite
 			signal-desktop-beta
-			#prismlauncher
-#			prismlauncher.override { jdks = [ pkgs.temurin-bin-17 ]; }
-				#jre8 # Required for atlauncher 
-			#atlauncher
+			prismlauncher
+			#prismlauncher.override { jdks = [ pkgs.jre17_minimal ]; }
+#			jre_minimal # v21 required for MC
+			jre17_minimal
+			modrinth-app
+#			atlauncher
 			zola
 			geoclue2 # Required for gammastep
 			#hyprlock
@@ -79,7 +83,10 @@
 			hyprpicker
 			syncthing
 			syncthingtray
-
+			typst
+			typst-live
+			bitwarden-desktop
+			firefox-bin
   ];
 
 ## Disabled Due to stylix conflicting with this.

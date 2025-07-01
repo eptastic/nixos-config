@@ -140,6 +140,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+		prometheus-node-exporter
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     #toybox
     htop
@@ -210,6 +211,12 @@
         wantedBy = ["multi-user.target"];  
     };
 
+	# Prometheus Node Exporter
+	 services.prometheus.exporters.node = {
+		 enable = true;
+		 listenAddress = "0.0.0.0";
+	 };
+
   # Enable the OpenSSH daemon.
    services.openssh = { 
      enable = true;
@@ -221,8 +228,8 @@
   # Open ports in the firewall.
    networking.firewall = {
      enable = true;
-     allowedTCPPorts = [ 18080 18081 18089 ];
-     allowedUDPPorts = [ 18080 18081 18089 ];
+     allowedTCPPorts = [ 18080 18081 18089 9100 ];
+     allowedUDPPorts = [ 18080 18081 18089 9100 ];
    };
 
   # This value determines the NixOS release from which the default
