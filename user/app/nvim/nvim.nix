@@ -24,7 +24,26 @@
       nixd
       alejandra
       yaml-language-server
+			tinymist
     ];
+
+		coc = {
+			enable = true;
+			
+			settings = {
+        languageserver = {
+          tinymist = {
+            command = "tinymist";
+            filetypes = [ "typst" ];
+            settings = {
+              formatterMode = "typstyle";
+              exportPdf = "onType";
+              semanticTokens = "disable";
+            };
+          };
+        };
+      };
+		};
 
     plugins = with pkgs.vimPlugins; [
       #      lazy-nvim
@@ -46,6 +65,7 @@
         type = "lua";
         config = toFile ./plugin/treesitter.lua;
       }
+
 
       {
         ## Define plugin based on nixpkgs
@@ -97,6 +117,8 @@
         ## Define oneline setup
         config = "require(\"Comment\").setup()";
       }
+
+			
     ];
   };
 }

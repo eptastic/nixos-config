@@ -86,7 +86,7 @@
 			typst
 			typst-live
 			bitwarden-desktop
-			firefox-bin
+			#firefox-bin
   ];
 
 ## Disabled Due to stylix conflicting with this.
