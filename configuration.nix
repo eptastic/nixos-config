@@ -91,6 +91,12 @@
       ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTR{power/wakeup}="enabled"
     '';
   };
+  
+	# Allow unfree and broken pkgs
+  nixpkgs.config = {
+		allowUnfree = true;
+		allowBroken = true;
+	};
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.alex = {
@@ -98,6 +104,7 @@
     description = "Alex Mathison";
     extraGroups = ["networkmanager" "wheel"];
     packages = with pkgs; [
+			firefox
       nwg-displays
       bc # used for weather widget
       jq # Used for weather widget
@@ -115,7 +122,6 @@
       libnotify # Mako depends on this
       swww # Background images
       rofi-wayland # Application Launcher
-      discord
       pavucontrol
       slurp
       grim
@@ -148,10 +154,6 @@
   services.getty.autologinUser = "alex";
 
   services.journald.extraConfig = "SystemMaxUse=1G";
-  # Allow unfree and insecurepackages
-  nixpkgs.config.allowUnfree = true;
-  # Allow broken packages
-  nixpkgs.config.allowBroken = true;
 
   # Greetd
   #  services.greetd.enable = true;
@@ -181,7 +183,8 @@
   # Fonts
 
   fonts.packages = with pkgs; [
-    nerdfonts
+    nerd-fonts.caskaydia-cove
+    nerd-fonts.jetbrains-mono
     #(nerdfonts.override { fonts = [ "CaskaydiaCove Nerd Font" ]; })
   ];
 
@@ -242,10 +245,8 @@
   # Enabling nvidia gpu
 
   services.xserver.videoDrivers = ["nvidia"];
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
   };
   hardware.nvidia = {
     modesetting.enable = true;
@@ -268,7 +269,6 @@
   xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-gtk];
 
   ## Enable Sound
-  sound.enable = false; #Meant to ALSA configs
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -326,7 +326,7 @@
     };
     fonts = {
       monospace = {
-        package = pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];};
+        package = pkgs.nerd-fonts.jetbrains-mono;
         name = "JetBrainsMono Nerd Font Mono";
       };
       sansSerif = {

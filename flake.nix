@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # 23.11
-	
+		
 #	hyprland.url = "github:hyprwm/Hyprland";
 
     home-manager = {
@@ -29,18 +29,21 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in
     {
+		 
 
      nixosConfigurations = {
 		   default = nixpkgs.lib.nixosSystem {
 			   specialArgs = {inherit inputs;};
-					 modules = [
-						 ./configuration.nix
-						 ./system 
-						 # Below refers to the above INPUTS on line 7!! 
-						 inputs.home-manager.nixosModules.default
-						 inputs.stylix.nixosModules.stylix
-						 inputs.sops-nix.nixosModules.sops
-					 ];
+
+				 modules = [
+					 ./configuration.nix
+					 ./system 
+					 # Below refers to the above INPUTS on line 7!! 
+					 inputs.home-manager.nixosModules.default
+					 inputs.stylix.nixosModules.stylix
+					 inputs.sops-nix.nixosModules.sops
+				 ];
+
 				 };
 		
 	       homeManagerModules.default = ./user;

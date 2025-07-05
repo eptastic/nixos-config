@@ -8,11 +8,12 @@
 	./app/terminal/wezterm.nix
 	./app/bar/waybar.nix
 	./app/nvim/nvim.nix
-	./app/browser/firefox/firefox.nix
+#	./app/browser/firefox/firefox.nix # Removed because extns didn't work and its older version
 	./app/spotify/spotifyd.nix
 	./app/zsh/zsh.nix
 	./app/git/git.nix
 	./app/fastfetch/fastfetch.nix
+	./app/hypr/hyprlock.nix
   ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -43,16 +44,15 @@
 			monero-gui
 			angryipscanner
 			runelite
-			signal-desktop-beta
-			prismlauncher
+			signal-desktop
+			#prismlauncher
 			#prismlauncher.override { jdks = [ pkgs.jre17_minimal ]; }
 #			jre_minimal # v21 required for MC
-			jre17_minimal
-			modrinth-app
+			#jre17_minimal
+			#modrinth-app
 #			atlauncher
 			zola
 			geoclue2 # Required for gammastep
-			#hyprlock
 			gammastep
 			tree
 			beets
@@ -73,9 +73,7 @@
 			lazygit
 			#chafa # Required for Image Previews for LF
 			ueberzugpp
-			vencord
 			vesktop
-			webcord
 			swappy
 			waypaper
 			cava
@@ -86,7 +84,6 @@
 			typst
 			typst-live
 			bitwarden-desktop
-			#firefox-bin
   ];
 
 ## Disabled Due to stylix conflicting with this.
@@ -122,7 +119,6 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
-  programs.hyprlock.enable = true;
 
 	programs.ssh = {
     enable = true;
@@ -150,10 +146,12 @@
 
   services.mako = {
     enable = true;
-    icons = true;
 		# Sytling
-		defaultTimeout = 5000;
-		borderRadius = 15;
+		settings = {
+			default-timeout = 5000;
+			icons = true;
+			border-radius = 15;
+		};
 
   };
 
