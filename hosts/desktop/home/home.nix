@@ -6,17 +6,21 @@ in
 {
 
   imports = [
-	./app/file_manager/yazi.nix
-	./app/terminal/wezterm.nix
-	./app/bar/waybar.nix
-	./app/nvim/nvim.nix
+	./apps/file_manager/yazi.nix
+	./apps/terminal/wezterm.nix
+	./apps/waybar.nix
+	./apps/nvim/nvim.nix
 		#	(if enableNvf then ./app/nvim/nvf.nix else ./app/nvim/nvim.nix)
 #	./app/browser/firefox/firefox.nix # Removed because extns didn't work and its older version
-	./app/spotify/spotifyd.nix
-	./app/zsh/zsh.nix
-	./app/git/git.nix
-	./app/fastfetch/fastfetch.nix
-	./app/hypr/hyprlock.nix
+	./apps/spotifyd.nix
+	./apps/shell/zsh.nix
+	./apps/git.nix
+	./apps/fastfetch.nix
+	./apps/hypr/hyprlock.nix
+	./apps/hypr/hyprland.nix
+	./apps/hypr/hypridle.nix
+	./apps/ledger.nix
+	./apps/wlogout.nix
   ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.

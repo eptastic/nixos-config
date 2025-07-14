@@ -33,22 +33,23 @@
 		packages.${system}.default = 
 			(nvf.lib.neovimConfiguration {
 				pkgs = pkgs;
-				modules = [ ./user/app/nvim/nvf.nix ];
+				modules = [ ./nvf.nix ];
 			}).neovim;
 
 	 
 		homeManagerModules = {
-				default = ./user/home.nix;
+				default = import ./modules/home.nix;
+				extraSpecialArgs = { inherit inputs; };
 		};
 
      nixosConfigurations = {
-		   default = nixpkgs.lib.nixosSystem {
+		   desktop = nixpkgs.lib.nixosSystem {
 				 system = system;
 			   specialArgs = {inherit inputs;};
 
 				 modules = [
-					 ./configuration.nix
-					 ./system 
+					 ./hosts/desktop/configuration.nix
+					 ./hosts/desktop/system 
 					 inputs.home-manager.nixosModules.default
 					 stylix.nixosModules.stylix
 					 sops-nix.nixosModules.sops

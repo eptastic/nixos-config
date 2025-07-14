@@ -13,7 +13,7 @@
       vim = "nvim";
       vi = "nvim";
       n = "nvim";
-      nixdefault = "sudo nixos-rebuild switch --flake /home/alex/nixos-config#default";
+      nixdesktop = "sudo nixos-rebuild switch --flake /home/alex/nixos-config#desktop";
       nixupgrade = "sudo nixos-rebuild switch --upgrade --flake /home/alex/nixos-config#default";
       nixmonero = "nixos-rebuild switch --flake /home/alex/nixos-config#monero_nix --target-host monero_nix --ask-sudo-password";
 	 
