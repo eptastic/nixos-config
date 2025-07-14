@@ -11,6 +11,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./main-user.nix
+		./user/app/ledger.nix
     #../../common/core/sops.nix
     #inputs.home-manager.nixosModules.default
     inputs.sops-nix.nixosModules.sops
@@ -47,6 +48,8 @@
 	system = {
 		autoUpgrade = {
 			enable = true;
+			operation = "switch";
+			dates = "weekly";
 			allowReboot = true;
 		};
 	};
@@ -97,13 +100,17 @@
 		allowUnfree = true;
 		allowBroken = true;
 	};
+	
+	# Required for Ledger Live USB connection
+	users.groups.plugdev = {};
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.alex = {
     isNormalUser = true;
     description = "Alex Mathison";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = ["networkmanager" "wheel" "plugdev" ];
     packages = with pkgs; [
+			topgrade
 			firefox
       nwg-displays
       bc # used for weather widget
@@ -121,7 +128,7 @@
       mako
       libnotify # Mako depends on this
       swww # Background images
-      rofi-wayland # Application Launcher
+			#rofi-wayland # Application Launcher
       pavucontrol
       slurp
       grim

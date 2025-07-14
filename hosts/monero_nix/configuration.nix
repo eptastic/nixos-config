@@ -174,9 +174,9 @@
       serviceConfig = {
         Type = "forking";
 #        PIDFile = "/run/monero/monerod.pid";
-        ExecStart = "${pkgs.monero}/bin/monerod --config-file=/etc/monero/monerod.conf --data-dir=/var/lib/monero/.bitmonero --non-interactive --detach"; 
+        ExecStart = "${pkgs.monero-cli}/bin/monerod --config-file=/etc/monero/monerod.conf --data-dir=/var/lib/monero/.bitmonero --non-interactive --detach"; 
 #--pidfile /run/monero/monerod.pid
-	ExecStop = "${pkgs.monero}/bin/monerod stop";  # Gracefully stop the node
+	ExecStop = "${pkgs.monero-cli}/bin/monerod stop";  # Gracefully stop the node
 #	ExecStartPost = "/bin/sleep 2"; #Allow a brief pause after forking to ensure the PID is written
         Restart = "always";
         RestartSec = 30;

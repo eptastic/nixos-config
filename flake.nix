@@ -4,7 +4,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # 23.11
 		
-#	hyprland.url = "github:hyprwm/Hyprland";
+		nvf.url = "github:notashelf/nvf";
+		#	hyprland.url = "github:hyprwm/Hyprland";
 
     home-manager = {
       url = "github:nix-community/home-manager"; #/release-23.11"
@@ -23,30 +24,37 @@
 
   };
 
-  outputs = { nixpkgs, ... }@inputs: 
+  outputs = { self, nixpkgs, home-manager, stylix, sops-nix, nvf, ... }@inputs: 
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
     in
     {
-		 
+		packages.${system}.default = 
+			(nvf.lib.neovimConfiguration {
+				pkgs = pkgs;
+				modules = [ ./user/app/nvim/nvf.nix ];
+			}).neovim;
+
+	 
+		homeManagerModules = {
+				default = ./user/home.nix;
+		};
 
      nixosConfigurations = {
 		   default = nixpkgs.lib.nixosSystem {
+				 system = system;
 			   specialArgs = {inherit inputs;};
 
 				 modules = [
 					 ./configuration.nix
 					 ./system 
-					 # Below refers to the above INPUTS on line 7!! 
 					 inputs.home-manager.nixosModules.default
-					 inputs.stylix.nixosModules.stylix
-					 inputs.sops-nix.nixosModules.sops
+					 stylix.nixosModules.stylix
+					 sops-nix.nixosModules.sops
 				 ];
-
-				 };
+			 };
 		
-	       homeManagerModules.default = ./user;
 
 			## Monero_Nix Configuration
 		   monero_nix = nixpkgs.lib.nixosSystem {
