@@ -7,7 +7,7 @@
 			schema = "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json";
 			logo = {
 				type = "sixel";
-				source = "~/nixos-config/assets/wallpaper/cyber_yellow_cropped.jpg";
+				source = "/home/alex/nixos-config/assets/wallpaper/cyber_yellow_cropped.jpg";
 				height = 21;
 				padding = {
 					top = 2;

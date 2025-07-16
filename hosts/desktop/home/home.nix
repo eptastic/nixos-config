@@ -19,7 +19,6 @@ in
 	./apps/hypr/hyprlock.nix
 	./apps/hypr/hyprland.nix
 	./apps/hypr/hypridle.nix
-	./apps/ledger.nix
 	./apps/wlogout.nix
   ];
   # Home Manager needs a bit of information about you and the paths it should

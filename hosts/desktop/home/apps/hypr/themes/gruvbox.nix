@@ -1,5 +1,5 @@
 {
-	background_image = "/home/alex/nixos-config/assets/wallpaper/abstract_swirl.png";
+	background_image = "/home/alex/nixos-config/assets/wallpaper/space_brown_hues.jpg";
 	display_picture = "/home/alex/nixos-config/assets/dp/frog_1.jpg";
 
 	font = "JetBrainsMono Nerd Font";

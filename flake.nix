@@ -49,9 +49,14 @@
 
 				 modules = [
 					 ./hosts/desktop/configuration.nix
-					 ./hosts/desktop/system 
+						#					 ./hosts/desktop/system - Don't ref directories unless there is a default.nix file there
 					 inputs.home-manager.nixosModules.default
 					 stylix.nixosModules.stylix
+					 {
+						 _module.args = {
+							 wallpaperPath = ./assets/wallpaper/space_brown_hues.jpg;
+						 };
+					 }
 					 sops-nix.nixosModules.sops
 				 ];
 			 };

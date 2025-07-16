@@ -2,6 +2,7 @@
 
 let
 	gruvbox = import ./themes/gruvbox.nix;
+	weatherScript = ./weather.sh;
 in
 {
   programs.hyprlock = {
@@ -49,7 +50,7 @@ in
 				## Weather
 				{
 					monitor = "";
-					text = ''cmd[update:1000] bash /home/alex/.config/hypr/weather.sh'';
+					text = ''cmd[update:1000] bash ${weatherScript}'';
 					color = "${gruvbox.text}";
 					font_size = 50;
 					font_family = "${gruvbox.font}";

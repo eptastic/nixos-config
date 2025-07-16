@@ -5,13 +5,15 @@
   config,
   pkgs,
   inputs,
+	wallpaperPath,
   ...
-}: {
+}:
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./main-user.nix
-		./user/app/ledger.nix
+		./system/ledger.nix
     #../../common/core/sops.nix
     #inputs.home-manager.nixosModules.default
     inputs.sops-nix.nixosModules.sops
@@ -153,7 +155,7 @@
     useGlobalPkgs = true;
     extraSpecialArgs = {inherit inputs;};
     users = {
-      "alex" = import ../modules/home.nix;
+      "alex" = import ./home/home.nix;
     };
   };
 
@@ -171,16 +173,16 @@
   #    };
   #  };
 
-	services = {
-		displayManager = {
-			enable = true;
-			sddm = {
-				wayland.enable = true;
-				enable = true;
-				theme = "${import ./sddm-theme.nix {inherit pkgs;}}";
-			};
-		};
-	};
+	#	services = {
+	#		displayManager = {
+	#			enable = true;
+	#			sddm = {
+	#				wayland.enable = true;
+	#				enable = true;
+	#				theme = "${import ./sddm-theme.nix {inherit pkgs;}}";
+	#			};
+	#		};
+	#	};
 
 
   qt.enable = true;
@@ -332,7 +334,7 @@
   stylix = {
     enable = true;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
-    image = ../assets/wallpaper/abstract3.jpg;
+		image = wallpaperPath;
     cursor = {
       package = pkgs.bibata-cursors;
       name = "Bibata-Modern-Ice";

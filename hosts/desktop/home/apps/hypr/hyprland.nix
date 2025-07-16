@@ -1,13 +1,25 @@
-{...}:
+{ pkgs, config, ...}:
 
 {
 	wayland.windowManager.hyprland = {
 		enable = true;
+		
+		extraConfig = ''
+			exec-once = ${pkgs.swww}/bin/swww-daemon
+			exec-once = ${pkgs.networkmanagerapplet}/bin/nm-applet --indicator 
+			exec-once = ${pkgs.waybar}/bin/waybar
+
+			exec-once = sleep 1 && ${pkgs.swww}/bin/swww img ${config.home.homeDirectory}/nixos-config/assets/wallpaper/space_brown_hues.jpg
+		'';
+
 		settings = {
 			"$terminal" = "wezterm";
 			"$fileManager" = "yazi"; 
 			"$menu" = "wofi --show drun";
 			"$mainMod" = "SUPER";
+			# Screenshots Directory
+			"$ssDir" = "/home/alex/Pictures/Screenshots";
+
 			monitor = [
 				"DP-2,2560x1440@164.85,0x0,1"
 			];
@@ -50,11 +62,13 @@
 				gaps_in = 5;
 				gaps_out = 20;
 				border_size = 2;
-				col.active_border = "rgba(458588ee) rgba(689d6aee) 45deg";
-				col.inactive_border = "rgba(a89984aa)";
 				layout = "dwindle";
 				# Please see https://wiki.hyprland.org/Configuring/Tearing/ before you turn this on
 				allow_tearing = false;
+				
+				## Overwritten by Stylix I believe, so not necessary
+				#"col.active_border" = "rgba(458588ee) rgba(689d6aee) 45deg"; 
+				#"col.inactive_border" = "rgba(a89984aa)";
 			};
 
 			decoration = {
@@ -121,108 +135,88 @@
 				"move 960 520,title:(Picture-in-Picture)"
 				"float,title:^(Picture-in-Picture)$"
 			];
+
+			bind = [
+				"$mainMod, L, exec, pidof hyprlock || hyprlock"
+
+				# Opens the Rofi Launcher
+				"$mainMod, D, exec, rofi -show drun -show-icons"
+
+				# Screenshot command, the copying to the clipboard doesn't work
+  			", Print, exec, grim -g '$(slurp)' - | tee >(wl-copy && notify-send 'Screenshot copied to clipboard' -t 1000) > /home/alex/Pictures/Screenshots/Screenshot-$(date +%F_%T).png && notify-send 'Screenshot saved to /home/alex/Pictures/Screenshots' -t 1000"
+				"SHIFT, Print, exec, grim -g '$(slurp)' - | swappy -f -"
+			
+				"$mainMod, RETURN, exec, $terminal"
+				"$mainMod, C, killactive, "
+				#				"$mainMod, M, exit, "
+				"$mainMod, E, exec, $fileManager"
+				"$mainMod, V, togglefloating, "
+				"$mainMod, R, exec, $menu"
+				"$mainMod, P, pseudo, # dwindle"
+				"$mainMod, J, togglesplit, # dwindle"
+				"$mainMod, F, fullscreen, 1"
+
+					# Move focus with mainMod + arrow keys
+				"$mainMod, left, movefocus, l"
+				"$mainMod, right, movefocus, r"
+				"$mainMod, up, movefocus, u"
+				"$mainMod, down, movefocus, d"
+
+					# Switch workspaces with mainMod + [0-9]
+				"$mainMod, 1, workspace, 1"
+				"$mainMod, 2, workspace, 2"
+				"$mainMod, 3, workspace, 3"
+				"$mainMod, 4, workspace, 4"
+				"$mainMod, 5, workspace, 5"
+				"$mainMod, 6, workspace, 6"
+				"$mainMod, 7, workspace, 7"
+				"$mainMod, 8, workspace, 8"
+				"$mainMod, 9, workspace, 9"
+				"$mainMod, 0, workspace, 10"
+
+					# Move active window to a workspace with mainMod + SHIFT + [0-9]
+				"$mainMod SHIFT, 1, movetoworkspace, 1"
+				"$mainMod SHIFT, 2, movetoworkspace, 2"
+				"$mainMod SHIFT, 3, movetoworkspace, 3"
+				"$mainMod SHIFT, 4, movetoworkspace, 4"
+				"$mainMod SHIFT, 5, movetoworkspace, 5"
+				"$mainMod SHIFT, 6, movetoworkspace, 6"
+				"$mainMod SHIFT, 7, movetoworkspace, 7"
+				"$mainMod SHIFT, 8, movetoworkspace, 8"
+				"$mainMod SHIFT, 9, movetoworkspace, 9"
+				"$mainMod SHIFT, 0, movetoworkspace, 10"
+
+					# Move active window to another direction
+				"$mainMod SHIFT, left, movewindow, l"
+				"$mainMod SHIFT, right, movewindow, r"
+				"$mainMod SHIFT, up, movewindow, u"
+				"$mainMod SHIFT, down, movewindow, d"
+
+
+					# Example special workspace (scratchpad)
+				"$mainMod, S, togglespecialworkspace, magic"
+				"$mainMod SHIFT, S, movetoworkspace, special:magic"
+
+					# Scroll through existing workspaces with mainMod + scroll
+				"$mainMod, mouse_down, workspace, e+1"
+				"$mainMod, mouse_up, workspace, e-1"
+
+					# Move/resize windows with mainMod + LMB/RMB and dragging
+				"$mainMod, mouse:272, movewindow"
+				#"$mainMod, mouse:273, resizewindow"
+
+					# Resize Windows with keys
+				"$mainMod CTRL SHIFT, right, resizeactive, 50 0"
+				"$mainMod CTRL SHIFT, left, resizeactive, -50 0"
+				"$mainMod CTRL SHIFT, up, resizeactive, 0 -50"
+				"$mainMod CTRL SHIFT, down, resizeactive, 0 50"
+
+					# Resize incrementally
+				"$mainMod CTRL SHIFT ALT, right, resizeactive, 10 0"
+				"$mainMod CTRL SHIFT ALT, left, resizeactive, -10 0"
+				"$mainMod CTRL SHIFT ALT, up, resizeactive, 0 -10"
+				"$mainMod CTRL SHIFT ALT, down, resizeactive, 0 10"
+			];
 		};
-
-
-
-
-
-
-
 	};
-
-
-
-
-
-
-
-	# See https://wiki.hyprland.org/Configuring/Keywords/ for more
-
-	bind = $mainMod, L, exec, pidof hyprlock || hyprlock
-
-	# Opens the Rofi Launcher
-	bind = $mainMod, D, exec, rofi -show drun -show-icons
-
-	# Screenshots Directory
-	$ssDir = /home/alex/Pictures/Screenshots
-
-	# Screenshot command, the copying to the clipboard doesn't work
-	bind =, Print, exec, grim -g "$(slurp)" - | tee >(wl-copy && notify-send "Screenshot copied to clipboard" -t 1000) > /home/alex/Pictures/Screenshots/Screenshot-$(date +%F_%T).png && notify-send "Screenshot saved to /home/alex/Pictures/Screenshots" -t 1000
-	bind =SHIFT, Print, exec, grim -g "$(slurp)" - | swappy -f -
-
-	# Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
-	bind = $mainMod, RETURN, exec, $terminal
-	bind = $mainMod, C, killactive, 
-	#bind = $mainMod, M, exit, 
-	bind = $mainMod, E, exec, $fileManager
-	bind = $mainMod, V, togglefloating, 
-	bind = $mainMod, R, exec, $menu
-	bind = $mainMod, P, pseudo, # dwindle
-	bind = $mainMod, J, togglesplit, # dwindle
-	bind = $mainMod, F, fullscreen, 1
-
-	# Move focus with mainMod + arrow keys
-	bind = $mainMod, left, movefocus, l
-	bind = $mainMod, right, movefocus, r
-	bind = $mainMod, up, movefocus, u
-	bind = $mainMod, down, movefocus, d
-
-	# Switch workspaces with mainMod + [0-9]
-	bind = $mainMod, 1, workspace, 1
-	bind = $mainMod, 2, workspace, 2
-	bind = $mainMod, 3, workspace, 3
-	bind = $mainMod, 4, workspace, 4
-	bind = $mainMod, 5, workspace, 5
-	bind = $mainMod, 6, workspace, 6
-	bind = $mainMod, 7, workspace, 7
-	bind = $mainMod, 8, workspace, 8
-	bind = $mainMod, 9, workspace, 9
-	bind = $mainMod, 0, workspace, 10
-
-	# Move active window to a workspace with mainMod + SHIFT + [0-9]
-	bind = $mainMod SHIFT, 1, movetoworkspace, 1
-	bind = $mainMod SHIFT, 2, movetoworkspace, 2
-	bind = $mainMod SHIFT, 3, movetoworkspace, 3
-	bind = $mainMod SHIFT, 4, movetoworkspace, 4
-	bind = $mainMod SHIFT, 5, movetoworkspace, 5
-	bind = $mainMod SHIFT, 6, movetoworkspace, 6
-	bind = $mainMod SHIFT, 7, movetoworkspace, 7
-	bind = $mainMod SHIFT, 8, movetoworkspace, 8
-	bind = $mainMod SHIFT, 9, movetoworkspace, 9
-	bind = $mainMod SHIFT, 0, movetoworkspace, 10
-
-	# Move active window to another direction
-	bind = $mainMod SHIFT, left, movewindow, l
-	bind = $mainMod SHIFT, right, movewindow, r
-	bind = $mainMod SHIFT, up, movewindow, u
-	bind = $mainMod SHIFT, down, movewindow, d
-
-
-	# Example special workspace (scratchpad)
-	bind = $mainMod, S, togglespecialworkspace, magic
-	bind = $mainMod SHIFT, S, movetoworkspace, special:magic
-
-	# Scroll through existing workspaces with mainMod + scroll
-	bind = $mainMod, mouse_down, workspace, e+1
-	bind = $mainMod, mouse_up, workspace, e-1
-
-	# Move/resize windows with mainMod + LMB/RMB and dragging
-	bindm = $mainMod, mouse:272, movewindow
-	bindm = $mainMod, mouse:273, resizewindow
-
-	# Resize Windows with keys
-	bind = $mainMod CTRL SHIFT, right, resizeactive, 50 0
-	bind = $mainMod CTRL SHIFT, left, resizeactive, -50 0
-	bind = $mainMod CTRL SHIFT, up, resizeactive, 0 -50
-	bind = $mainMod CTRL SHIFT, down, resizeactive, 0 50
-
-	# Resize incrementally
-	bind = $mainMod CTRL SHIFT ALT, right, resizeactive, 10 0
-	bind = $mainMod CTRL SHIFT ALT, left, resizeactive, -10 0
-	bind = $mainMod CTRL SHIFT ALT, up, resizeactive, 0 -10
-	bind = $mainMod CTRL SHIFT ALT, down, resizeactive, 0 10
-
-	exec-once=
-
 }
