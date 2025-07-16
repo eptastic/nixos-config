@@ -21,21 +21,12 @@ in
 	./apps/hypr/hypridle.nix
 	./apps/wlogout.nix
   ];
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
  # users."alex" = {
    home.homeDirectory = "/home/alex";
    home.file = {};
  # };
 
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
-  home.stateVersion = "23.11"; # Please read the comment before changing.
+  home.stateVersion = "23.11"; 
 
   home.sessionVariables = {
      EDITOR = "nvim";
@@ -93,35 +84,9 @@ in
 			bitwarden-desktop
   ];
 
-## Disabled Due to stylix conflicting with this.
-#  home.pointerCursor = {
-#	gtk.enable = true;
-#	package = pkgs.bibata-cursors;
-#	name = "Bibata-Modern-Classic";
-#	size = 22;
-#  };
-
-
   nixpkgs.config = {
     allowUnfree = true;
   };
-
-
-  # Home Manager can also manage your environment variables through
-  # 'home.sessionVariables'. If you don't want to manage your shell through Home
-  # Manager then you have to manually source 'hm-session-vars.sh' located at
-  # either
-  #
-  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  /etc/profiles/per-user/alex/etc/profile.d/hm-session-vars.sh
-  #
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -130,6 +95,11 @@ in
 	programs.ssh = {
     enable = true;
     matchBlocks = {
+			"github.com" = {
+				hostname = "github.com";
+				user = "git";
+				identityFile = "/run/secrets/ssh_keys/nixgithub";
+			};
       "spicems" = {
         hostname = "172.16.20.1";
         user = "alex";

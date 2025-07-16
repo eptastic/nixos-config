@@ -3,15 +3,13 @@
 This is my personal, fully declarative NixOS configuration. It uses [flakes](https://nixos.wiki/wiki/Flakes), [home-manager](https://github.com/nix-community/home-manager), and custom modules to manage the OS, user environment, and window manager (Hyprland).
 
 ## 🧩 Structure
-├── configuration.nix
+```
+├── assets 
 ├── flake.lock
 ├── flake.nix
-├── hardware-configuration.nix
 ├── hosts
-├── main-user.nix
-├── sddm-theme.nix
-├── system
-└── user
+└── modules
+```
 
 ## 🚀 Features
 
@@ -23,6 +21,5 @@ This is my personal, fully declarative NixOS configuration. It uses [flakes](htt
 
 ## To-Do
 
-- Convert hyprland setup to nix
 - Introduce option flags
 
