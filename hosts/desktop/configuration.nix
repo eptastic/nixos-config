@@ -15,7 +15,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./main-user.nix
-		./system/ledger.nix
+    ./system/ledger.nix
     #../../common/core/sops.nix
     #inputs.home-manager.nixosModules.default
     inputs.sops-nix.nixosModules.sops
@@ -25,7 +25,7 @@
     defaultSopsFile = ./system/security/secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
     age.keyFile = "/home/alex/.config/sops/age/keys.txt";
-                #secrets.hello = {}; #Example
+    secrets.openweather_api_key = {}; 
     secrets."ssh_keys/spicems" = {
       owner = config.users.users.alex.name;
       group = config.users.users.alex.group;
