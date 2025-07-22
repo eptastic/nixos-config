@@ -28,37 +28,45 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-    in
-    {
-		packages.${system}.default = 
-			(nvf.lib.neovimConfiguration {
-				pkgs = pkgs;
-				modules = [ ./nvf.nix ];
-			}).neovim;
 
-	 
-		homeManagerModules = {
-				default = import ./modules/home.nix;
-				extraSpecialArgs = { inherit inputs; };
-		};
+			nvfNvim = (nvf.lib.neovimConfiguration {
+      inherit pkgs;
+      modules = [ ./modules/nvf.nix ];
+    }).neovim;
 
-     nixosConfigurations = {
-		   desktop = nixpkgs.lib.nixosSystem {
-				 system = system;
-			   specialArgs = {inherit inputs;};
 
-				 modules = [
-					 ./hosts/desktop/configuration.nix
+    in {
+			packages.${system} = { 
+				nvf-nvim = nvfNvim;	
+				default = nvfNvim;
+			};	
+			## I think this is used for building homeManager remotely. Not used atm 
+			#homeManagerModules = {
+			#		default = import ./modules/home.nix;
+			#		extraSpecialArgs = { inherit inputs; };
+			#};
+
+ 		  nixosConfigurations = {
+			  desktop = nixpkgs.lib.nixosSystem {
+				  system = system;
+				  specialArgs = {
+						inherit inputs nvfNvim;
+					};
+
+				  modules = [
+					  ./hosts/desktop/configuration.nix
 						#					 ./hosts/desktop/system - Don't ref directories unless there is a default.nix file there
-					 inputs.home-manager.nixosModules.default
-					 stylix.nixosModules.stylix
-					 {
-						 _module.args = {
+					  home-manager.nixosModules.default
+					  sops-nix.nixosModules.sops
+					  stylix.nixosModules.stylix
+					  
+						# Additional Args for wallpaper
+						{
+						  _module.args = {
 							 wallpaperPath = ./assets/wallpaper/space_brown_hues.jpg;
-						 };
-					 }
-					 sops-nix.nixosModules.sops
-				 ];
+						  };
+					  }
+				 	];
 			 };
 		
 

@@ -6,6 +6,8 @@
   pkgs,
   inputs,
 	wallpaperPath,
+	nvfNvim,
+	system,
   ...
 }:
 {
@@ -23,7 +25,7 @@
     defaultSopsFile = ./system/security/secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
     age.keyFile = "/home/alex/.config/sops/age/keys.txt";
-    secrets.hello = {}; #Example
+                #secrets.hello = {}; #Example
     secrets."ssh_keys/spicems" = {
       owner = config.users.users.alex.name;
       group = config.users.users.alex.group;
@@ -153,7 +155,7 @@
   # Imports home.nix to configure home-manager for user Alex
   home-manager = {
     useGlobalPkgs = true;
-    extraSpecialArgs = {inherit inputs;};
+    extraSpecialArgs = {inherit inputs nvfNvim;};
     users = {
       "alex" = import ./home/home.nix;
     };

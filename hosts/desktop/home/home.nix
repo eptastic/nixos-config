@@ -1,15 +1,11 @@
-{ config, pkgs, lib, inputs, ... }:
+{ config, pkgs, inputs, nvfNvim, ... }:
 
-let
-	enableNvf = true;
-in
 {
 
   imports = [
 	./apps/file_manager/yazi.nix
 	./apps/terminal/wezterm.nix
 	./apps/waybar.nix
-	./apps/nvim/nvim.nix
 		#	(if enableNvf then ./app/nvim/nvf.nix else ./app/nvim/nvim.nix)
 #	./app/browser/firefox/firefox.nix # Removed because extns didn't work and its older version
 	./apps/spotifyd.nix
@@ -36,6 +32,7 @@ in
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+			nvfNvim
 			qmk
 			keymapviz
 			ledger-live-desktop
@@ -84,9 +81,6 @@ in
 			bitwarden-desktop
   ];
 
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

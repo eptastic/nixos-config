@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Your OpenWeatherMap API key
-API_KEY="813b7958edb6c638d29d848dcf23f27c"
+API_KEY=$(< /run/user/1000/secrets/openweathe_api_key)
 
 # Your city and country code (adjust as necessary)
 CITY="Brunswick"
