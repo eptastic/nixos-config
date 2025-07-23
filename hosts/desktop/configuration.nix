@@ -25,7 +25,12 @@
     defaultSopsFile = ./system/security/secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
     age.keyFile = "/home/alex/.config/sops/age/keys.txt";
-    secrets.openweather_api_key = {}; 
+    ## Give alex permission to openweather_api_key
+    secrets.openweather_api_key = {
+      owner = config.users.users.alex.name;
+      group = config.users.users.alex.group;
+      mode = "0440";
+    }; 
     secrets."ssh_keys/spicems" = {
       owner = config.users.users.alex.name;
       group = config.users.users.alex.group;
