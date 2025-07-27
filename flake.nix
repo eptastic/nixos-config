@@ -4,8 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # 23.11
 		
-		nvf.url = "github:notashelf/nvf";
-		#	hyprland.url = "github:hyprwm/Hyprland";
+        nvf-portable.url = "github:eptastic/nvf-portable";
 
     home-manager = {
       url = "github:nix-community/home-manager"; #/release-23.11"
@@ -24,22 +23,10 @@
 
   };
 
-  outputs = { self, nixpkgs, home-manager, stylix, sops-nix, nvf, ... }@inputs: 
+  outputs = { self, nixpkgs, home-manager, stylix, sops-nix, nvf-portable, ... }@inputs: 
     let
       system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-
-			nvfNvim = (nvf.lib.neovimConfiguration {
-      inherit pkgs;
-      modules = [ ./modules/nvf.nix ];
-    }).neovim;
-
-
     in {
-			packages.${system} = { 
-				nvf-nvim = nvfNvim;	
-				default = nvfNvim;
-			};	
 			## I think this is used for building homeManager remotely. Not used atm 
 			#homeManagerModules = {
 			#		default = import ./modules/home.nix;
@@ -50,7 +37,7 @@
 			  desktop = nixpkgs.lib.nixosSystem {
 				  system = system;
 				  specialArgs = {
-						inherit inputs nvfNvim;
+						inherit inputs;
 					};
 
 				  modules = [
@@ -59,6 +46,7 @@
 					  home-manager.nixosModules.default
 					  sops-nix.nixosModules.sops
 					  stylix.nixosModules.stylix
+                                          nvf-portable.nixosModules.nvf-config
 					  
 						# Additional Args for wallpaper
 						{

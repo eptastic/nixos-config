@@ -6,7 +6,6 @@
   pkgs,
   inputs,
 	wallpaperPath,
-	nvfNvim,
 	system,
   ...
 }:
@@ -35,7 +34,11 @@
       owner = config.users.users.alex.name;
       group = config.users.users.alex.group;
     };
-		secrets."ssh_keys/monero_nix" = {
+    secrets."ssh_keys/monero_nix" = {
+      owner = config.users.users.alex.name;
+      group = config.users.users.alex.group;
+		};
+    secrets."ssh_keys/nixgithub" = {
       owner = config.users.users.alex.name;
       group = config.users.users.alex.group;
 		};
@@ -160,7 +163,7 @@
   # Imports home.nix to configure home-manager for user Alex
   home-manager = {
     useGlobalPkgs = true;
-    extraSpecialArgs = {inherit inputs nvfNvim;};
+    extraSpecialArgs = {inherit inputs;};
     users = {
       "alex" = import ./home/home.nix;
     };

@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, nvfNvim, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
 
@@ -32,7 +32,6 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-			nvfNvim
 			qmk
 			keymapviz
 			ledger-live-desktop
@@ -79,6 +78,7 @@
 			typst
 			typst-live
 			bitwarden-desktop
+                        freetube
   ];
 
 

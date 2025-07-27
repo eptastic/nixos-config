@@ -39,5 +39,10 @@ in
                         bash.enable = true;
 			nix.enable = true;
 		};
+
+                assistant = {
+                   avante-nvim.enable = true;
+                   
+                };
         };
 }
