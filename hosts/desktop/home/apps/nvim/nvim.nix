@@ -105,15 +105,18 @@
         type = "lua";
         config = ''
 
-#                require(\"nvim-tree\").setup()
-                require("nvim-tree").setup()
+                require("nvim-tree").setup {
+                   view = {
+                      width = 10,
+                   }
+                }
 
                 vim.keymap.set("n", "<C-w><", function()
-                   require("nvim-tree.view").resize(-2)
+                   require("nvim-tree.view").resize(-20)
                    end, { silent = true })
 
                 vim.keymap.set("n", "<C-w>>", function()
-                   require("nvim-tree.view").resize(2)
+                   require("nvim-tree.view").resize(20)
                    end, { silent = true })
 
         '';
