@@ -79,6 +79,7 @@
 			typst-live
 			bitwarden-desktop
                         freetube
+                        alejandra
   ];
 
 

@@ -65,6 +65,11 @@
         type = "lua";
         config = toFile ./plugin/treesitter.lua;
       }
+      {
+        plugin = conform-nvim;
+        type = "lua";
+        config = toFile ./plugin/conform.lua;
+      }
 
 
       {
@@ -104,20 +109,19 @@
         plugin = nvim-tree-lua;
         type = "lua";
         config = ''
+           require("nvim-tree").setup {
+              view = {
+                 width = 10,
+              }
+           }
 
-                require("nvim-tree").setup {
-                   view = {
-                      width = 10,
-                   }
-                }
+           vim.keymap.set("n", "<C-w><", function()
+              require("nvim-tree.view").resize(-20)
+           end, { silent = true })
 
-                vim.keymap.set("n", "<C-w><", function()
-                   require("nvim-tree.view").resize(-20)
-                   end, { silent = true })
-
-                vim.keymap.set("n", "<C-w>>", function()
-                   require("nvim-tree.view").resize(20)
-                   end, { silent = true })
+           vim.keymap.set("n", "<C-w>>", function()
+              require("nvim-tree.view").resize(20)
+           end, { silent = true })
 
         '';
       }
