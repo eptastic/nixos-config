@@ -95,15 +95,21 @@
 				identityFile = "/run/secrets/ssh_keys/nixgithub";
 			};
       "spicems" = {
-        hostname = "172.16.20.1";
+        hostname = "172.16.20.50";
         user = "alex";
         identityFile = "/run/secrets/ssh_keys/spicems";
       };
 			"monero_nix" = {
-				hostname = "172.16.20.10";
+				hostname = "172.16.20.11";
 				user = "alex";
 				identityFile = "/run/secrets/ssh_keys/monero_nix";
 			};
+        "laptop-wsl" = {
+                hostname = "172.16.10.8";
+                user = "alex";
+                port = 2222;
+                identityFile = "/run/secrets/ssh_keys/alex_laptop";
+        };
     };
   };
 

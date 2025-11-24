@@ -65,6 +65,13 @@
 					 ./hosts/monero_nix/hardware-configuration.nix
 				 ];
 			 };
+			## Laptop Configuration
+		   laptop = nixpkgs.lib.nixosSystem {
+			   modules = [
+				   ./hosts/laptop/configuration.nix
+                                 ./hosts/laptop/hardware-configuration.nix
+				 ];
+			 };
 		 };
     };
 }

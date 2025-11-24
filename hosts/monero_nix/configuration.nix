@@ -31,8 +31,8 @@
     address = "172.16.20.10";
     prefixLength = 16;
   } ];
-  networking.defaultGateway = "172.16.10.1";
-  networking.nameservers = [ "1.1.1.1" ];
+  networking.defaultGateway = "172.16.20.11";
+  networking.nameservers = [ "172.16.20.1" ];
 
 
   # Set your time zone.

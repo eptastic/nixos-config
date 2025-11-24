@@ -103,7 +103,20 @@
       {
         plugin = nvim-tree-lua;
         type = "lua";
-        config = "require(\"nvim-tree\").setup()";
+        config = ''
+
+#                require(\"nvim-tree\").setup()
+                require("nvim-tree").setup()
+
+                vim.keymap.set("n", "<C-w><", function()
+                   require("nvim-tree.view").resize(-2)
+                   end, { silent = true })
+
+                vim.keymap.set("n", "<C-w>>", function()
+                   require("nvim-tree.view").resize(2)
+                   end, { silent = true })
+
+        '';
       }
 
       #	   { plugin = neorg;
