@@ -1,7 +1,4 @@
-{ ... }:
-
-{
-
+{...}: {
   programs.zsh = {
     enable = true;
     autosuggestion.enable = true;
@@ -16,28 +13,26 @@
       nixdesktop = "sudo nixos-rebuild switch --flake /home/alex/nixos-config#desktop";
       nixupgrade = "sudo nixos-rebuild switch --upgrade --flake /home/alex/nixos-config#desktop";
       nixmonero = "nixos-rebuild switch --flake /home/alex/nixos-config#monero_nix --target-host monero_nix --ask-sudo-password";
-	 
-	 		# Directory Aliases
-			home = "/home/alex/nixos-config/desktop/home/";
-			config = "/home/alex/nixos-config/";
-			
 
-		  reload-waybar = "killall -SIGTERM waybar && bash /home/alex/.config/hypr/start.sh";
-	  	cfg = "nvim /home/alex/nixos-config/hosts/desktop/configuration.nix";
-			hm = "nvim /home/alex/nixos-config/hosts/desktop/home.nix";
-			#			nvim_plugin = "cd /home/alex/nixos-config/user/app/nvim/plugin/";
-			logout = "sudo pkill -KILL -u alex";
+      # Directory Aliases
+      home = "/home/alex/nixos-config/desktop/home/";
+      config = "/home/alex/nixos-config/";
 
-			zsh = "source ~/.zshrc";
+      reload-waybar = "killall -SIGTERM waybar && bash /home/alex/.config/hypr/start.sh";
+      cfg = "nvim /home/alex/nixos-config/hosts/desktop/configuration.nix";
+      hm = "nvim /home/alex/nixos-config/hosts/desktop/home.nix";
+      #			nvim_plugin = "cd /home/alex/nixos-config/user/app/nvim/plugin/";
+      logout = "sudo pkill -KILL -u alex";
 
-			# Git Aliases
-			gs = "git status -s";
+      zsh = "source ~/.zshrc";
 
-			ga = "git add";
-			
-			# Cat = Bat
-			cat = "bat";
+      # Git Aliases
+      gs = "git status -s";
 
+      ga = "git add";
+
+      # Cat = Bat
+      cat = "bat";
     };
   };
 }

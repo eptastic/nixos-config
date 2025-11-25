@@ -5,11 +5,10 @@
   config,
   pkgs,
   inputs,
-	wallpaperPath,
-	system,
+  wallpaperPath,
+  system,
   ...
-}:
-{
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -28,7 +27,7 @@
       owner = config.users.users.alex.name;
       group = config.users.users.alex.group;
       mode = "0440";
-    }; 
+    };
     secrets."ssh_keys/spicems" = {
       owner = config.users.users.alex.name;
       group = config.users.users.alex.group;
@@ -36,11 +35,11 @@
     secrets."ssh_keys/monero_nix" = {
       owner = config.users.users.alex.name;
       group = config.users.users.alex.group;
-		};
+    };
     secrets."ssh_keys/nixgithub" = {
       owner = config.users.users.alex.name;
       group = config.users.users.alex.group;
-		};
+    };
   };
 
   main-user.enable = true;
@@ -52,18 +51,18 @@
     loader.efi.canTouchEfiVariables = true;
     # Fixed that issue where my 2nd workspace wasn't working
     kernelParams = ["nvidia_drm.fbdev=1"];
-		# Allow to build aarch64 systems
-		binfmt.emulatedSystems = [ "aarch64-linux" ];
+    # Allow to build aarch64 systems
+    binfmt.emulatedSystems = ["aarch64-linux"];
   };
 
-	system = {
-		autoUpgrade = {
-			enable = true;
-			operation = "switch";
-			dates = "weekly";
-			allowReboot = true;
-		};
-	};
+  system = {
+    autoUpgrade = {
+      enable = true;
+      operation = "switch";
+      dates = "weekly";
+      allowReboot = true;
+    };
+  };
 
   # Disable Hibernation and Sleep.
   systemd.targets = {
@@ -105,24 +104,24 @@
       ACTION=="add", SUBSYSTEM=="usb", DRIVER=="usb", ATTR{power/wakeup}="enabled"
     '';
   };
-  
-	# Allow unfree and broken pkgs
+
+  # Allow unfree and broken pkgs
   nixpkgs.config = {
-		allowUnfree = true;
-		allowBroken = true;
-	};
-	
-	# Required for Ledger Live USB connection
-	users.groups.plugdev = {};
+    allowUnfree = true;
+    allowBroken = true;
+  };
+
+  # Required for Ledger Live USB connection
+  users.groups.plugdev = {};
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.alex = {
     isNormalUser = true;
     description = "Alex Mathison";
-    extraGroups = ["networkmanager" "wheel" "plugdev" ];
+    extraGroups = ["networkmanager" "wheel" "plugdev"];
     packages = with pkgs; [
-			topgrade
-			firefox
+      topgrade
+      firefox
       nwg-displays
       bc # used for weather widget
       jq # Used for weather widget
@@ -139,7 +138,7 @@
       mako
       libnotify # Mako depends on this
       swww # Background images
-			#rofi-wayland # Application Launcher
+      #rofi-wayland # Application Launcher
       pavucontrol
       slurp
       grim
@@ -163,15 +162,12 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = {inherit inputs wallpaperPath; };
-    users.alex = {
-      imports = [ ./home/home.nix ];
-    };
+    extraSpecialArgs = {inherit inputs;};
+    users.alex = import ./home/home.nix;
   };
 
   # Enable automatic login for the user.
   services.getty.autologinUser = "alex";
-
   services.journald.extraConfig = "SystemMaxUse=1G";
 
   # Greetd
@@ -183,17 +179,16 @@
   #    };
   #  };
 
-	#	services = {
-	#		displayManager = {
-	#			enable = true;
-	#			sddm = {
-	#				wayland.enable = true;
-	#				enable = true;
-	#				theme = "${import ./sddm-theme.nix {inherit pkgs;}}";
-	#			};
-	#		};
-	#	};
-
+  #	services = {
+  #		displayManager = {
+  #			enable = true;
+  #			sddm = {
+  #				wayland.enable = true;
+  #				enable = true;
+  #				theme = "${import ./sddm-theme.nix {inherit pkgs;}}";
+  #			};
+  #		};
+  #	};
 
   qt.enable = true;
 
@@ -344,7 +339,7 @@
   stylix = {
     enable = true;
     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-medium.yaml";
-		image = wallpaperPath;
+    image = wallpaperPath;
     cursor = {
       package = pkgs.bibata-cursors;
       name = "Bibata-Modern-Ice";
