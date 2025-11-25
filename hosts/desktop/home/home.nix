@@ -117,9 +117,11 @@
 
 
   # Enable Oh My Zsh 
-  programs.zsh.oh-my-zsh = {
-    enable = true;
-    theme = "agnoster";
+  programs.zsh = {
+    oh-my-zsh = {
+       enable = true;
+       theme = "agnoster";
+    };
   };
 
 	programs.rofi = {

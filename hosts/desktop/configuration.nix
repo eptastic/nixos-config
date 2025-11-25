@@ -16,7 +16,6 @@
     ./main-user.nix
     ./system/ledger.nix
     #../../common/core/sops.nix
-    #inputs.home-manager.nixosModules.default
     inputs.sops-nix.nixosModules.sops
   ];
 
@@ -163,9 +162,10 @@
   # Imports home.nix to configure home-manager for user Alex
   home-manager = {
     useGlobalPkgs = true;
-    extraSpecialArgs = {inherit inputs;};
-    users = {
-      "alex" = import ./home/home.nix;
+    useUserPackages = true;
+    extraSpecialArgs = {inherit inputs wallpaperPath; };
+    users.alex = {
+      imports = [ ./home/home.nix ];
     };
   };
 
