@@ -1,4 +1,8 @@
-{pkgs, inputs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   programs.neovim = let
     #   toLua = str: "lua << EOF\n${str}\nEOF\n";
     #   toLuaFile = file: "lua << EOF\n${builtins.readFile file}\nEOF\n";
@@ -24,17 +28,17 @@
       nixd
       alejandra
       yaml-language-server
-			tinymist
+      tinymist
     ];
 
-		coc = {
-			enable = true;
-			
-			settings = {
+    coc = {
+      enable = true;
+
+      settings = {
         languageserver = {
           tinymist = {
             command = "tinymist";
-            filetypes = [ "typst" ];
+            filetypes = ["typst"];
             settings = {
               formatterMode = "typstyle";
               exportPdf = "onType";
@@ -43,7 +47,7 @@
           };
         };
       };
-		};
+    };
 
     plugins = with pkgs.vimPlugins; [
       #      lazy-nvim
@@ -68,9 +72,30 @@
       {
         plugin = conform-nvim;
         type = "lua";
-        config = toFile ./plugin/conform.lua;
-      }
+        config = ''
+                 -- Safely setup conform
+          local ok, conform = pcall(require, "conform")
+          if not ok then
+            vim.notify("Conform.nvim not loaded", vim.log.levels.WARN)
+            return
+          end
 
+          -- Setup Alejandra for nix
+          conform.setup({
+            formatters_by_ft = {
+              nix = { "alejandra" },
+            },
+          })
+
+          -- Autoformat on save
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            pattern = "*.nix",
+            callback = function()
+              conform.format({ async = false })
+            end,
+          })
+        '';
+      }
 
       {
         ## Define plugin based on nixpkgs
@@ -109,19 +134,19 @@
         plugin = nvim-tree-lua;
         type = "lua";
         config = ''
-           require("nvim-tree").setup {
-              view = {
-                 width = 10,
-              }
-           }
+          require("nvim-tree").setup {
+             view = {
+                width = 10,
+             }
+          }
 
-           vim.keymap.set("n", "<C-w><", function()
-              require("nvim-tree.view").resize(-20)
-           end, { silent = true })
+          vim.keymap.set("n", "<C-w><", function()
+             require("nvim-tree.view").resize(-20)
+          end, { silent = true })
 
-           vim.keymap.set("n", "<C-w>>", function()
-              require("nvim-tree.view").resize(20)
-           end, { silent = true })
+          vim.keymap.set("n", "<C-w>>", function()
+             require("nvim-tree.view").resize(20)
+          end, { silent = true })
 
         '';
       }
@@ -137,8 +162,6 @@
         ## Define oneline setup
         config = "require(\"Comment\").setup()";
       }
-
-			
     ];
   };
 }

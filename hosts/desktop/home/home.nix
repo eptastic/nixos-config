@@ -6,7 +6,7 @@
 	./apps/file_manager/yazi.nix
 	./apps/terminal/wezterm.nix
 	./apps/waybar.nix
-		#	(if enableNvf then ./app/nvim/nvf.nix else ./app/nvim/nvim.nix)
+                #(if enableNvf then ./app/nvim/nvf.nix else ./app/nvim/nvim.nix)
 #	./app/browser/firefox/firefox.nix # Removed because extns didn't work and its older version
 	./apps/spotifyd.nix
 	./apps/shell/zsh.nix
@@ -16,6 +16,7 @@
 	./apps/hypr/hyprland.nix
 	./apps/hypr/hypridle.nix
 	./apps/wlogout.nix
+        ./apps/nvim/nvf.nix
   ];
  # users."alex" = {
    home.homeDirectory = "/home/alex";

@@ -3,8 +3,9 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # 23.11
+    nvf.url = "github:notashelf/nvf/v0.8";
 		
-        nvf-portable.url = "github:eptastic/nvf-portable";
+                #nvf-portable.url = "github:eptastic/nvf-portable";
 
     home-manager = {
       url = "github:nix-community/home-manager"; #/release-23.11"
@@ -23,7 +24,7 @@
 
   };
 
-  outputs = { self, nixpkgs, home-manager, stylix, sops-nix, nvf-portable, ... }@inputs: 
+  outputs = { self, nixpkgs, home-manager, stylix, sops-nix, nvf, ... }@inputs: 
     let
       system = "x86_64-linux";
     in {
@@ -46,7 +47,8 @@
 					  home-manager.nixosModules.default
 					  sops-nix.nixosModules.sops
 					  stylix.nixosModules.stylix
-                                          nvf-portable.nixosModules.nvf-config
+                                          nvf.homeManagerModules.default
+                                                #nvf-portable.nixosModules.nvf-config
 					  
 						# Additional Args for wallpaper
 						{
