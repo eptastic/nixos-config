@@ -46,7 +46,19 @@
         # NVF Plugins
         filetree.nvimTree = {
           enable = true;
-          setupOpts.view.width = 20;
+          setupOpts = {
+            view = {
+              width = 20;
+              relativenumber = true;
+            };
+          };
+        };
+
+        visuals = {
+          cinnamon-nvim.enable = true;
+          indent-blankline.enable = true;
+          nvim-cursorline.enable = true;
+          nvim-web-devicons.enable = true;
         };
         statusline.lualine.enable = true;
         dashboard.dashboard-nvim.enable = true;
@@ -60,7 +72,6 @@
         treesitter.enable = true;
         git = {
           gitsigns.enable = true;
-          vim-fugitive.enable = true;
         };
         binds.whichKey.enable = true;
         lsp.trouble.enable = true;
