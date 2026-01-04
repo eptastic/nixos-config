@@ -10,11 +10,40 @@
       vim = "nvim";
       vi = "nvim";
       n = "nvim";
-      nixdesktop = "sudo nixos-rebuild switch --flake /home/alex/nixos-config#desktop";
-      nixupgrade = "sudo nixos-rebuild switch --upgrade --flake /home/alex/nixos-config#desktop";
-      nixmonero = "nixos-rebuild switch --flake /home/alex/nixos-config#monero_nix --target-host monero_nix --ask-sudo-password";
-      pihole-nix = "nixos-rebuild switch --flake /home/alex/nixos-config#pihole-nix --target-host pihole-nix --ask-sudo-password";
-      spicems-rebuild = "nixos-rebuild switch --flake /home/alex/nixos-config#spicems --target-host spicems --ask-sudo-password";
+
+      nixdesktop = ''
+        sudo nixos-rebuild switch \
+          --flake /home/alex/nixos-config#desktop
+      '';
+      nixupgrade = ''
+        sudo nixos-rebuild switch \
+          --upgrade \
+          --flake /home/alex/nixos-config#desktop
+      '';
+
+      nixmonero = ''
+        nixos-rebuild switch \
+          --flake /home/alex/nixos-config#monero_nix \
+          --target-host monero_nix \
+          --build-host monero_nix \
+          --ask-sudo-password
+      '';
+
+      pihole-nix = ''
+        nixos-rebuild switch \
+          --flake /home/alex/nixos-config#pihole-nix \
+          --target-host pihole-nix \
+          --build-host pihole-nix \
+          --ask-sudo-password
+      '';
+
+      spicems-rebuild = ''
+        nixos-rebuild switch \
+          --flake /home/alex/nixos-config#spicems \
+          --target-host spicems \
+          --build-host spicems \
+          --ask-sudo-password
+      '';
 
       # Directory Aliases
       home = "/home/alex/nixos-config/desktop/home/";

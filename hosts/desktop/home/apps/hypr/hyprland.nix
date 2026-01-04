@@ -109,10 +109,10 @@
         #new_is_master = true
       };
 
-      gestures = {
-        # See https://wiki.hyprland.org/Configuring/Variables/ for more
-        workspace_swipe = false;
-      };
+      # gestures = {
+      #   # See https://wiki.hyprland.org/Configuring/Variables/ for more
+      #   workspace_swipe = false;
+      # };
 
       misc = {
         # See https://wiki.hyprland.org/Configuring/Variables/ for more
