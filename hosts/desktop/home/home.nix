@@ -8,6 +8,7 @@
     inputs.nvf.homeManagerModules.default
     ./apps/file_manager/yazi.nix
     ./apps/terminal/wezterm.nix
+    ./apps/terminal/kitty.nix
     ./apps/waybar.nix
     #(if enableNvf then ./app/nvim/nvf.nix else ./app/nvim/nvim.nix)
     #	./app/browser/firefox/firefox.nix # Removed because extns didn't work and its older version
@@ -39,7 +40,6 @@
     keymapviz
     ledger-live-desktop
     monero-gui
-    angryipscanner
     runelite
     signal-desktop
     #prismlauncher
@@ -90,7 +90,13 @@
 
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
+
     matchBlocks = {
+      "*" = {
+        hashKnownHosts = true;
+        addKeysToAgent = "yes";
+      };
       "github.com" = {
         hostname = "github.com";
         user = "git";
@@ -111,6 +117,12 @@
         user = "alex";
         port = 2222;
         identityFile = "/run/secrets/ssh_keys/alex_laptop";
+      };
+      "pihole-nix" = {
+        hostname = "161.33.78.213";
+        user = "root";
+        port = 22;
+        identityFile = "/run/secrets/ssh_keys/pihole-nix";
       };
     };
   };

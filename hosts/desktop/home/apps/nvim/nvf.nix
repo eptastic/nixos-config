@@ -7,9 +7,9 @@
       vim = {
         # Basic editor behavior
         options = {
-          tabstop = 3;
-          shiftwidth = 3;
-          softtabstop = 3;
+          tabstop = 2;
+          shiftwidth = 2;
+          softtabstop = 2;
           expandtab = true;
           smartindent = true;
           autoindent = true;
@@ -71,6 +71,7 @@
         };
         treesitter.enable = true;
         git = {
+          vim-fugitive.enable = true;
           gitsigns.enable = true;
         };
         binds.whichKey.enable = true;
@@ -87,6 +88,17 @@
           python.enable = true;
           bash.enable = true;
           nix.enable = true;
+          typst = {
+            enable = true;
+            format.enable = true;
+            lsp.enable = true;
+            extensions = {
+              typst-preview-nvim = {
+                enable = true;
+                # setupOpts =
+              };
+            };
+          };
           #lua.enable = true;
           # javascript.enable = true;
           #typescript.enable = true;

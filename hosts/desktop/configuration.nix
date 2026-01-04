@@ -40,6 +40,10 @@
       owner = config.users.users.alex.name;
       group = config.users.users.alex.group;
     };
+    secrets."ssh_keys/pihole-nix" = {
+      owner = config.users.users.alex.name;
+      group = config.users.users.alex.group;
+    };
   };
 
   main-user.enable = true;
@@ -109,6 +113,9 @@
   nixpkgs.config = {
     allowUnfree = true;
     allowBroken = true;
+    permittedInsecurePackages = [
+      "broadcom-sta-6.30.223.271-59-6.12.62"
+    ];
   };
 
   # Required for Ledger Live USB connection
@@ -171,11 +178,14 @@
   services.journald.extraConfig = "SystemMaxUse=1G";
 
   # Greetd
-  #  services.greetd.enable = true;
-  #  services.greetd.settings = {
-  #    inital_session = {
-  #    	command = "${pkgs.hyprland}/bin/Hyprland"; # it used to be {pkgs.greetd.reetd}
-  #		user = "alex";
+  #  services.greetd = {
+  #    enable = true;
+  #    settings = {
+  #      inital_session = {
+  #        command = "${pkgs.hyprland}/bin/Hyprland"; # it used to be {pkgs.greetd.reetd}
+  #        # Next should try Tuigreet (KISS)
+  #        user = "alex";
+  #      };
   #    };
   #  };
 

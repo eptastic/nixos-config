@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; # 23.11
-    nvf =  { 
+    nvf = {
       url = "github:notashelf/nvf/v0.8";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -37,7 +37,6 @@
   } @ inputs: let
     system = "x86_64-linux";
   in {
-
     nixosConfigurations = {
       desktop = nixpkgs.lib.nixosSystem {
         system = system;
@@ -74,6 +73,22 @@
         modules = [
           ./hosts/laptop/configuration.nix
           ./hosts/laptop/hardware-configuration.nix
+        ];
+      };
+
+      ## Pihole-nix Configuration
+      pihole-nix = nixpkgs.lib.nixosSystem {
+        modules = [
+          ./hosts/pihole-nix/configuration.nix
+          ./hosts/pihole-nix/hardware-configuration.nix
+        ];
+      };
+
+      ## Spicems Configuration
+      spicems = nixpkgs.lib.nixosSystem {
+        modules = [
+          ./hosts/spicems/configuration.nix
+          ./hosts/spicems/hardware-configuration.nix
         ];
       };
     };
