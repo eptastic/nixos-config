@@ -1,11 +1,15 @@
 keys:
-  #  - &users:
-    - &alex age1qaxfw7w2ylzyapqgkvydw8jntq54mvv2eqspazerfkme6pquadvszg2dqm
-    #  - &hosts:
-    #- &nixos age156vs5yttfpslez0x6k7zzy9j7ehmtle0j2zlmu8jr05z590h8qkq5s5pk9
+  - &desktop_alex age1qaxfw7w2ylzyapqgkvydw8jntq54mvv2eqspazerfkme6pquadvszg2dqm
+  - &spicems age1uq3yl9cjmvgxhcp4m9as4g75p9p0lfunqpn0lrywsnkucw40c4qql6dgp6
 creation_rules:
+  # Desktop Secrets
   - path_regex: hosts/desktop/system/security/secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
       - age:
-        - *alex
+        - *desktop_alex
         #    - *nixos
+  - path_regex: hosts/.*/secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+        - *desktop_alex
+        - *spicems

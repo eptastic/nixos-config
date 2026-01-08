@@ -9,8 +9,30 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./containers
+    ./modules
   ];
 
+  sops = {
+    defaultSopsFile = ./secrets/secrets.yaml;
+    defaultSopsFormat = "yaml";
+    age.keyFile = "/var/lib/sops/age/keys.txt";
+  };
+
+  sops.secrets = {
+    plex-claim = {};
+  };
+
+  # Create the directory for the keys.txt file
+  systemd.tmpfiles.rules = [
+    "d /var/lib/sops 0700 root root -"
+    "d /var/lib/sops/age 0700 root root -"
+  ];
+
+  nix.settings = {
+    experimental-features = ["nix-command" "flakes"];
+    trusted-users = ["alex"];
+  };
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -71,6 +93,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    podman-compose
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     zfs
@@ -96,17 +119,17 @@
     };
   };
 
-  virtualisation.docker = {
-    enable = true;
-    enableOnBoot = true;
-    daemon.settings = {
-      log-driver = "json-file";
-      log-opts = {
-        max-size = "50m";
-        max-file = "3";
-      };
-    };
-  };
+  # virtualisation.docker = {
+  #   enable = true;
+  #   enableOnBoot = true;
+  #   daemon.settings = {
+  #     log-driver = "json-file";
+  #     log-opts = {
+  #       max-size = "50m";
+  #       max-file = "3";
+  #     };
+  #   };
+  # };
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [

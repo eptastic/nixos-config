@@ -87,6 +87,7 @@
       ## Spicems Configuration
       spicems = nixpkgs.lib.nixosSystem {
         modules = [
+          sops-nix.nixosModules.sops
           ./hosts/spicems/configuration.nix
           ./hosts/spicems/hardware-configuration.nix
         ];
