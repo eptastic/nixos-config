@@ -86,6 +86,9 @@
 
       ## Spicems Configuration
       spicems = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          secretsFile = ./hosts/spicems/secrets/secrets.yaml;
+        };
         modules = [
           sops-nix.nixosModules.sops
           ./hosts/spicems/configuration.nix

@@ -3,24 +3,12 @@
   lib,
   config,
   ...
-}: {
-  # Enable container name DNS for all Podman networks.
-  networking.firewall.interfaces = let
-    matchAll =
-      if !config.networking.nftables.enable
-      then "podman+"
-      else "podman*";
-  in {
-    "${matchAll}".allowedUDPPorts = [53];
-  };
-  virtualisation.oci-containers.backend = "podman";
-
-  # Fake engine-id file (create this file once on your host with `uuidgen > /path/to/fake-engine-id`)
-  # Example: uuidgen > ./fake-engine-id  (place it next to dozzle.nix)
-  # It should contain a single UUID like: b9f1d7fc-b459-4b6e-9f7a-e3d1cd2e14a9
-
+}: let
+  vars = import ./variables.nix;
+in {
   # Main Dozzle UI
   virtualisation.oci-containers.containers."dozzle" = {
+    autoStart = true;
     #user = "alex:users";
 
     image = "amir20/dozzle:latest";
@@ -34,7 +22,7 @@
     #  DOZZLE_DOCKER_HOST = "unix:///var/run/docker.sock";
     #};
     #networks = ["t2_proxy"];
-    log-driver = "journald";
+    log-driver = vars.common.logDriver;
     extraOptions = [
       "--network-alias=dozzle"
       #  "--network=t2_proxy"

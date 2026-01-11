@@ -29,17 +29,44 @@
 
         # Keymaps
         keymaps = [
+          #          {
+          #            key = "<C-w>>";
+          #            mode = "n";
+          #            silent = true;
+          #            action = ":vertical resize +5<CR>"; # Resize NvimTree / splits
+          #          }
+          #          {
+          #            key = "<C-w><";
+          #            mode = "n";
+          #            silent = true;
+          #            action = ":vertical resize -5<CR>";
+          #          }
           {
-            key = "<C-w>>";
+            key = "<A-Right>";
             mode = "n";
             silent = true;
-            action = ":vertical resize +5<CR>"; # Resize NvimTree / splits
+            action = ":vertical resize +5<CR>";
           }
+
           {
-            key = "<C-w><";
+            key = "<A-Left>";
             mode = "n";
             silent = true;
             action = ":vertical resize -5<CR>";
+          }
+
+          {
+            key = "<A-Up>";
+            mode = "n";
+            silent = true;
+            action = ":resize -5<CR>";
+          }
+
+          {
+            key = "<A-Down>";
+            mode = "n";
+            silent = true;
+            action = ":resize +5<CR>";
           }
         ];
 
@@ -64,7 +91,9 @@
         dashboard.dashboard-nvim.enable = true;
         notify.nvim-notify.enable = true;
         comments.comment-nvim.enable = true;
-        telescope.enable = true;
+        telescope = {
+          enable = true;
+        };
         autocomplete = {
           nvim-cmp.enable = true;
           enableSharedCmpSources = true;

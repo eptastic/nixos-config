@@ -3,41 +3,36 @@
   lib,
   config,
   ...
-}: {
-  networking.firewall.interfaces = let
-    matchAll =
-      if !config.networking.nftables.enable
-      then "podman+"
-      else "podman*";
-  in {
-    "${matchAll}".allowedUDPPorts = [53];
-  };
-
-  virtualisation.oci-containers = {
-    backend = "podman";
-
-    containers.homeassistant = {
+}: let
+  vars = import ./variables.nix;
+in {
+  virtualisation.oci-containers.containers = {
+    homeassistant = {
       image = "ghcr.io/home-assistant/home-assistant:stable";
+      autoStart = true;
+
       volumes = [
         "/etc/localtime:/etc/localtime:ro"
         "/home/alex/docker/homeassistant:/config:rw"
         "/run/dbus:/run/dbus:ro"
       ];
       ports = ["8124:8123/tcp"];
+      networks = [
+        "t2_proxy"
+      ];
       labels = {
         "traefik.enable" = "true";
-        "traefik.http.routers.ha-local.entrypoints" = "websecure";
+        "traefik.http.routers.ha-local.entrypoints" = "https";
         "traefik.http.routers.ha-local.rule" = "Host(`homeassistant.local`)";
         "traefik.http.routers.ha-local.tls" = "true";
         "traefik.http.services.ha.loadbalancer.server.port" = "8123";
       };
-      log-driver = "journald";
+      log-driver = vars.common.logDriver;
       extraOptions = [
         # Remove --privileged unless absolutely needed
         # Add specific devices if you have Zigbee/Bluetooth/etc.
         # "--device=/dev/ttyUSB0:/dev/ttyUSB0"
       ];
-      autoStart = true; # Optional: ensures it starts on boot
     };
   };
 

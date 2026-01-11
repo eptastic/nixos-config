@@ -12,7 +12,7 @@
     ./apps/waybar.nix
     #(if enableNvf then ./app/nvim/nvf.nix else ./app/nvim/nvim.nix)
     #	./app/browser/firefox/firefox.nix # Removed because extns didn't work and its older version
-    ./apps/spotifyd.nix
+    #    ./apps/spotifyd.nix
     ./apps/shell/zsh.nix
     ./apps/git.nix
     ./apps/fastfetch.nix
@@ -61,9 +61,10 @@
     fd
     fzf
     gcc # Required for Tree-sitter
-    spotify
+    #spotify
+    tidal-hifi
     spicetify-cli
-    spotifyd
+    #    spotifyd
     playerctl
     #fastfetch
     hyprcursor

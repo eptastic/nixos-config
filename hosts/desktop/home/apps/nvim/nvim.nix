@@ -58,6 +58,7 @@
       plenary-nvim
       nvim-web-devicons
       telescope-fzf-native-nvim
+      telescope-zoxide
       dashboard-nvim
       # Configure treesitter languages
 

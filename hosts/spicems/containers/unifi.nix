@@ -4,6 +4,8 @@ in {
   # Containers
   virtualisation.oci-containers.containers."unifi-controller" = {
     image = "lscr.io/linuxserver/unifi-controller:latest";
+    autoStart = true;
+
     environment = {
       MEM_LIMIT = "1024";
       MEM_STARTUP = "1024";

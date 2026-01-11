@@ -202,21 +202,35 @@
         "$mainMod, mouse_down, workspace, e+1"
         "$mainMod, mouse_up, workspace, e-1"
 
-        # Move/resize windows with mainMod + LMB/RMB and dragging
-        "$mainMod, mouse:272, movewindow"
-        #"$mainMod, mouse:273, resizewindow"
-
-        # Resize Windows with keys
+        # Resize Windows with keys when floating
         "$mainMod CTRL SHIFT, right, resizeactive, 50 0"
         "$mainMod CTRL SHIFT, left, resizeactive, -50 0"
         "$mainMod CTRL SHIFT, up, resizeactive, 0 -50"
         "$mainMod CTRL SHIFT, down, resizeactive, 0 50"
 
-        # Resize incrementally
+        # Resize incrementally when floating
         "$mainMod CTRL SHIFT ALT, right, resizeactive, 10 0"
         "$mainMod CTRL SHIFT ALT, left, resizeactive, -10 0"
         "$mainMod CTRL SHIFT ALT, up, resizeactive, 0 -10"
         "$mainMod CTRL SHIFT ALT, down, resizeactive, 0 10"
+
+        # Resize Windows with keys
+        "$mainMod CTRL SHIFT, right, resizewindowpixel, 50 0"
+        "$mainMod CTRL SHIFT, left, resizewindowpixel, -50 0"
+        "$mainMod CTRL SHIFT, up, resizewindowpixel, 0 -50"
+        "$mainMod CTRL SHIFT, down, resizewindowpixel, 0 50"
+
+        # Resize incrementally when floating
+        "$mainMod CTRL SHIFT ALT, right, resizewindowpixel, 10 0"
+        "$mainMod CTRL SHIFT ALT, left, resizewindowpixel, -10 0"
+        "$mainMod CTRL SHIFT ALT, up, resizewindowpixel, 0 -10"
+        "$mainMod CTRL SHIFT ALT, down, resizewindowpixel, 0 10"
+      ];
+
+      bindm = [
+        # Move/resize windows with mainMod + LMB/RMB and dragging
+        "$mainMod, mouse:272, movewindow"
+        "$mainMod, mouse:273, resizewindow"
       ];
     };
   };

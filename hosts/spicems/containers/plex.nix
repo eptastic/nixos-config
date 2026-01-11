@@ -1,8 +1,10 @@
 {config, ...}: let
   vars = import ./variables.nix;
+  domainName = vars.domain.name;
 in {
   virtualisation.oci-containers.containers.plex = {
     image = "plexinc/pms-docker:plexpass";
+    autoStart = true;
 
     environment = {
       ALLOWED_NETWORKS = "172.16.0.0/24,172.16.10.0/24,172.16.20.0/24";
@@ -35,6 +37,22 @@ in {
       "32413:32413/udp"
       "32414:32414/udp"
     ];
+
+    networks = [
+      "t2_proxy"
+    ];
+
+    labels = {
+      "traefik.enable" = "true";
+      ## HTTP Routers
+      "traefik.http.routers.plex-rtr.entrypoints" = "https";
+      "traefik.http.routers.plex-rtr.rule" = "Host(`watch.${domainName}`)";
+      "traefik.http.routers.plex-rtr.tls" = "true";
+      ## HTTP Services
+      "traefik.http.routers.plex-rtr.middlewares" = "chain-no-auth@file"; # (Authelia Auth)
+      "traefik.http.routers.plex-rtr.service" = "plex-svc";
+      "traefik.http.services.plex-svc.loadbalancer.server.port" = "32400";
+    };
 
     log-driver = vars.common.logDriver;
   };

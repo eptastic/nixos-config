@@ -11,17 +11,8 @@
     ./hardware-configuration.nix
     ./containers
     ./modules
+    ./security/secrets.nix
   ];
-
-  sops = {
-    defaultSopsFile = ./secrets/secrets.yaml;
-    defaultSopsFormat = "yaml";
-    age.keyFile = "/var/lib/sops/age/keys.txt";
-  };
-
-  sops.secrets = {
-    plex-claim = {};
-  };
 
   # Create the directory for the keys.txt file
   systemd.tmpfiles.rules = [
