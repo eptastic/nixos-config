@@ -140,6 +140,19 @@
     enable = true;
   };
 
+  services.cliphist = {
+    enable = true;
+    systemdTargets = ["config.wayland.systemd.target"];
+    allowImages = true;
+
+    extraOptions = [
+      "-max-depupe-search"
+      "10"
+      "-max-items"
+      "50"
+    ];
+  };
+
   services.mako = {
     enable = true;
     # Sytling

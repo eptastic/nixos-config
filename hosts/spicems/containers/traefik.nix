@@ -29,7 +29,7 @@ in {
         "--api=true"
         "--api.insecure=true"
         "--log=true"
-        "--log.level=DEBUG"
+        "--log.level=WARN"
         "--accessLog=true"
         "--accessLog.filePath=/traefik.log"
         "--accessLog.bufferingSize=100"

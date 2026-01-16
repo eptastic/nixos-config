@@ -6,6 +6,7 @@
 }: let
   vars = import ./variables.nix;
   mediaDir = vars.system.mediaDir;
+  arrayDir = vars.system.arrayDir;
   dockerDir = vars.system.dockerDir;
   nextcloudDomain = vars.domain.nextcloud;
   domainName = vars.domain.name;
@@ -19,7 +20,7 @@ in {
       dependsOn = ["nc-db" "nc-redis"];
 
       volumes = [
-        "${mediaDir}/nextcloud/:/var/www/html"
+        "${arrayDir}/nextcloud/:/var/www/html"
       ];
 
       networks = [
@@ -96,6 +97,16 @@ in {
         "nextcloud"
       ];
     };
+  };
+
+  # ensure networks exist (podman creates them on first use, but declarative is better)
+  systemd.services."podman-network-nextcloud" = {
+    description = "podman network nextcloud";
+    wantedBy = ["podman-nextcloud.service"];
+    serviceConfig.type = "oneshot";
+    script = ''
+      ${config.virtualisation.podman.package}/bin/podman network create nextcloud || true
+    '';
   };
 }
 #command: --transaction-isolation=READ-COMMITED --log-bin=mysqld-bin --binlog-format=ROW

@@ -11,11 +11,12 @@
     ./authelia.nix
     ./traefik.nix
 
-    #./nextcloud.nix
+    # ./nextcloud.nix
 
     #./grafana.nix
     #./prometheus.nix
     #./influxdb.nix
     #./cadvisor.nix
+    ./copyparty.nix
   ];
 }
