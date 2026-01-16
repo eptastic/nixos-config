@@ -12,18 +12,19 @@
   vars = import ./variables.nix;
 in {
   virtualisation.oci-containers.containers = {
-    overseerr = {
-      image = "linuxserver/overseerr:latest";
+    seerr = {
+      image = "ghcr.io/fallenbagel/jellyseerr:latest";
       autoStart = true;
 
       environment = {
+        LOG_LEVEL = "debug";
         PUID = vars.user.uid;
         PGID = vars.user.pid;
         TZ = vars.user.tz;
       };
 
       volumes = [
-        "${vars.system.dockerDir}/overseerr:/config"
+        "${vars.system.dockerDir}/seerr:/config"
       ];
 
       ports = [
