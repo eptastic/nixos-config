@@ -1,14 +1,6 @@
-#    networks:
-#      - t2_proxy
-#    labels:
-#      - "traefik.enable=true"
-#      - "traefik.http.routers.sab-rtr.entrypoints=https"
-#      - "traefik.http.routers.sab-rtr.rule=Host(`sab.$DOMAINNAME`)"
-#      - "traefik.http.routers.sab-rtr.tls=true"
-#      - "traefik.http.routers.sab-rtr.service=sab-svc"
-#      - "traefik.http.services.sab-svc.loadbalancer.server.port=8080"
 {config, ...}: let
   vars = import ./variables.nix;
+  domainName = vars.domain.name;
 in {
   virtualisation.oci-containers.containers = {
     sabnzbd = {
@@ -34,6 +26,20 @@ in {
       ];
 
       log-driver = vars.common.logDriver;
+
+      networks = [
+        "t2_proxy"
+      ];
+
+      labels = {
+        "traefik.enable" = "true";
+        "traefik.http.routers.sab-rtr.entrypoints" = "https";
+        "traefik.http.routers.sab-rtr.rule" = "Host(`sab.${domainName}`)";
+        "traefik.http.routers.sab-rtr.tls" = "true";
+        "traefik.http.routers.sab-rtr.service" = "sab-svc";
+        "traefik.http.services.sab-svc.loadbalancer.server.port" = "8080";
+        "traefik.http.routers.sab-rtr.middlewares" = "chain-authelia@file";
+      };
     };
   };
 }

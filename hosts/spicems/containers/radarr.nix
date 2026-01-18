@@ -1,16 +1,6 @@
-### RADARR Network Settings
-#    networks:
-#      - t2_proxy
-#    labels:
-#      - "traefik.enable=true"
-#      - "traefik.http.routers.radarr-rtr.entrypoints=https"
-#      - "traefik.http.routers.radarr-rtr.rule=Host(`radarr.$DOMAINNAME`)"
-#      - "traefik.http.routers.radarr-rtr.tls=true"
-#      - "traefik.http.routers.radarr-rtr.service=radarr-svc"
-#      - "traefik.http.services.radarr-svc.loadbalancer.server.port=7878"
-#      - "traefik.http.routers.radarr-rtr.middlewares=chain-authelia@file"
 {config, ...}: let
   vars = import ./variables.nix;
+  domainName = vars.domain.name;
 in {
   virtualisation.oci-containers.containers = {
     radarr = {
@@ -37,6 +27,20 @@ in {
       ];
 
       log-driver = vars.common.logDriver;
+
+      networks = [
+        "t2_proxy"
+      ];
+
+      labels = {
+        "traefik.enable" = "true";
+        "traefik.http.routers.radarr-rtr.entrypoints" = "https";
+        "traefik.http.routers.radarr-rtr.rule" = "Host(`radarr.${domainName}`)";
+        "traefik.http.routers.radarr-rtr.tls" = "true";
+        "traefik.http.routers.radarr-rtr.service" = "radarr-svc";
+        "traefik.http.services.radarr-svc.loadbalancer.server.port" = "7878";
+        "traefik.http.routers.radarr-rtr.middlewares" = "chain-authelia@file";
+      };
     };
 
     radarr4k = {
@@ -62,19 +66,21 @@ in {
         "7979:7878"
       ];
 
+      networks = [
+        "t2_proxy"
+      ];
+
+      labels = {
+        "traefik.enable" = "true";
+        "traefik.http.routers.radarr4k-rtr.entrypoints" = "https";
+        "traefik.http.routers.radarr4k-rtr.rule" = "Host(`radarr4k.${domainName}`)";
+        "traefik.http.routers.radarr4k-rtr.tls" = "true";
+        "traefik.http.routers.radarr4k-rtr.service" = "radarr4k-svc";
+        "traefik.http.services.radarr4k-svc.loadbalancer.server.port" = "7878";
+        "traefik.http.routers.radarr4k-rtr.middlewares" = "chain-authelia@file";
+      };
+
       log-driver = vars.common.logDriver;
     };
   };
 }
-### RADARR4K Network Settings
-##    networks:
-#      - t2_proxy
-#    labels:
-#      - "traefik.enable=true"
-#      - "traefik.http.routers.radarr4k-rtr.entrypoints=https"
-#      - "traefik.http.routers.radarr4k-rtr.rule=Host(`radarr4k.$DOMAINNAME`)"
-#      - "traefik.http.routers.radarr4k-rtr.tls=true"
-#      - "traefik.http.routers.radarr4k-rtr.service=radarr4k-svc"
-#      - "traefik.http.services.radarr4k-svc.loadbalancer.server.port=7878"
-#      - "traefik.http.routers.radarr4k-rtr.middlewares=chain-authelia@file"        #
-

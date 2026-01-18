@@ -109,7 +109,7 @@
         identityFile = "/run/secrets/ssh_keys/spicems";
       };
       "monero_nix" = {
-        hostname = "172.16.20.11";
+        hostname = "172.16.20.10";
         user = "alex";
         identityFile = "/run/secrets/ssh_keys/monero_nix";
       };

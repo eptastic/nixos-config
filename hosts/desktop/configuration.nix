@@ -178,18 +178,18 @@
   services.journald.extraConfig = "SystemMaxUse=1G";
 
   # Greetd
-  services.greetd = {
-    enable = true;
-    settings = {
-      inital_session = {
-        #command = "${pkgs.hyprland}/bin/Hyprland"; # it used to be {pkgs.greetd.reetd}
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd hyprland";
-        #        # Next should try Tuigreet (KISS)
-
-        user = "alex";
-      };
-    };
-  };
+  #  services.greetd = {
+  #    enable = true;
+  #    settings = {
+  #      inital_session = {
+  #        #command = "${pkgs.hyprland}/bin/Hyprland"; # it used to be {pkgs.greetd.reetd}
+  #        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd hyprland";
+  #        #        # Next should try Tuigreet (KISS)
+  #
+  #        user = "alex";
+  #      };
+  #    };
+  #  };
 
   #	services = {
   #		displayManager = {

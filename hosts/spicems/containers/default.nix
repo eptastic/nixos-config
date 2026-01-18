@@ -7,11 +7,11 @@
     ./radarr.nix
     ./sonarr.nix
     ./sabnzbd.nix
-    ./overseerr.nix
+    ./seerr.nix
     ./authelia.nix
     ./traefik.nix
 
-    # ./nextcloud.nix
+    ./nextcloud.nix
 
     #./grafana.nix
     #./prometheus.nix

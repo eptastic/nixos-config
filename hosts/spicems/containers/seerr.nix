@@ -1,15 +1,11 @@
-#    networks:
-#      - t2_proxy
-#    labels:
-#      - "traefik.enable=true"
-#      - "traefik.http.routers.overseerr-rtr.entrypoints=https"
-#      - "traefik.http.routers.overseerr-rtr.rule=Host(`request.$DOMAINNAME`)"
-#      - "traefik.http.routers.overseerr-rtr.tls=true"
-#      - "traefik.http.routers.overseerr-rtr.service=overseerr-svc"
-#      - "traefik.http.services.overseerr-svc.loadbalancer.server.port=3579"
-#      - "traefik.http.routers.overseerr-rtr.middlewares=chain-authelia@file"
 {config, ...}: let
   vars = import ./variables.nix;
+  domainName = vars.domain.name;
+  dockerDir = vars.system.dockerDir;
+  userUid = vars.user.uid;
+  userPid = vars.user.pid;
+  tz = vars.user.tz;
+  logDriver = vars.common.logDriver;
 in {
   virtualisation.oci-containers.containers = {
     seerr = {
@@ -18,20 +14,34 @@ in {
 
       environment = {
         LOG_LEVEL = "debug";
-        PUID = vars.user.uid;
-        PGID = vars.user.pid;
-        TZ = vars.user.tz;
+        PUID = userUid;
+        PGID = userPid;
+        TZ = tz;
       };
 
       volumes = [
-        "${vars.system.dockerDir}/seerr:/config"
+        "${dockerDir}/seerr:/app/config"
       ];
 
       ports = [
         "5055:5055"
       ];
 
-      log-driver = vars.common.logDriver;
+      log-driver = logDriver;
+
+      networks = [
+        "t2_proxy"
+      ];
+
+      labels = {
+        "traefik.enable" = "true";
+        "traefik.http.routers.seerr-rtr.entrypoints" = "https";
+        "traefik.http.routers.seerr-rtr.rule" = "Host(`request.${domainName}`)";
+        "traefik.http.routers.seerr-rtr.tls" = "true";
+        "traefik.http.routers.seerr-rtr.service" = "seerr-svc";
+        "traefik.http.services.seerr-svc.loadbalancer.server.port" = "5055";
+        "traefik.http.routers.seerr-rtr.middlewares" = "chain-authelia@file";
+      };
     };
   };
 }
