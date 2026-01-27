@@ -5,6 +5,7 @@
 }: let
   vars = import ./variables.nix;
   dockerDir = vars.system.dockerDir;
+  domainName = vars.domain.name;
 in {
   virtualisation.oci-containers.containers = {
     mailarchiver = {
@@ -25,6 +26,20 @@ in {
         "--restart="
         "--network=mailarchiver-postgres"
       ];
+
+      networks = [
+        "t2_proxy"
+      ];
+
+      labels = {
+        "traefik.enable" = "true";
+        "traefik.http.routers.mail-archiver-rtr.entrypoints" = "https";
+        "traefik.http.routers.mail-archiver-rtr.rule" = "Host(`mail-archiver.${domainName}`)";
+        "traefik.http.routers.mail-archiver-rtr.tls" = "true";
+        "traefik.http.routers.mail-archiver-rtr.service" = "mail-archiver-svc";
+        "traefik.http.services.mail-archiver-svc.loadbalancer.server.port" = "5000";
+        "traefik.http.routers.mail-archiver-rtr.middlewares" = "chain-authelia@file";
+      };
     };
 
     postgres = {
