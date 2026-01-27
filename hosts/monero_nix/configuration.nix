@@ -177,7 +177,7 @@
       TimeoutStartSec = "0";
       TimeoutStopSec = "20min";
       KillSignal = "SIGTERM";
-      SendSIGKILL = "no";
+      SendSIGKILL = "no"; ## Ensures the service is not killed early
 
       # Directory creation and permissions
       User = "monero";

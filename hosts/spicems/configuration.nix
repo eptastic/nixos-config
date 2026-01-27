@@ -12,6 +12,7 @@
     ./containers
     ./modules
     ./security/secrets.nix
+    ./monitoring
   ];
 
   # Create the directory for the keys.txt file
@@ -27,6 +28,16 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  boot = {
+    kernelModules = ["br_netfilter"];
+    ## Without below, LAN+WAN access to containers broke entirely
+    kernel.sysctl = {
+      "net.ipv4.ip_forward" = 1;
+      #"net.bridge.bridge-nf-call-iptables" = 1;
+      #"net.bridge.bridge-nf-call-ip6tables" = 1;  # if using IPv6
+    };
+  };
 
   # Required for ZFS
   boot.supportedFilesystems = ["zfs"];
@@ -68,7 +79,7 @@
     variant = "";
   };
 
-  services.zfs.autoScrub.enable = false;
+  services.zfs.autoScrub.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.alex = {
@@ -129,7 +140,7 @@
   ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

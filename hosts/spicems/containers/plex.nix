@@ -42,6 +42,10 @@ in {
       "t2_proxy"
     ];
 
+    extraOptions = [
+      "--no-healthcheck"
+    ];
+
     labels = {
       "traefik.enable" = "true";
       ## HTTP Routers
@@ -52,6 +56,8 @@ in {
       "traefik.http.routers.plex-rtr.middlewares" = "chain-no-auth@file"; # (Authelia Auth)
       "traefik.http.routers.plex-rtr.service" = "plex-svc";
       "traefik.http.services.plex-svc.loadbalancer.server.port" = "32400";
+
+      #"traefik.docker.network" = "t2_proxy";
     };
 
     log-driver = vars.common.logDriver;

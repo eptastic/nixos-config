@@ -86,7 +86,7 @@ in {
       ];
 
       extraOptions = [
-        #"--network=t2_proxy" # main proxy network
+        "--network=t2_proxy" # REQUIRED - main proxy network
         # "--network=external_network"  # if needed
         "--security-opt=no-new-privileges:true"
       ];

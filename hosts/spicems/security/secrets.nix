@@ -69,6 +69,18 @@
       "nc/mysql-password" = {};
       "nc/mysql-root-password" = {};
       #      "nc/redis" = {};
+
+      "open-archiver/postgres-user" = {};
+      "open-archiver/postgres-password" = {};
+      "open-archiver/redis-password" = {};
+      "open-archiver/meili-master-key" = {};
+      "open-archiver/valkey" = {};
+
+      #      "paperless-admin-password" = {
+      #        owner = "paperless";
+      #        group = "paperless";
+      #        mode = "0400";
+      #      };
     };
   };
 }

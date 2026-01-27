@@ -36,6 +36,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    gcr
     qmk
     keymapviz
     ledger-live-desktop
@@ -127,6 +128,8 @@
       };
     };
   };
+
+  services.gnome-keyring.enable = true;
 
   # Enable Oh My Zsh
   programs.zsh = {

@@ -13,10 +13,9 @@
 
     ./nextcloud.nix
 
-    #./grafana.nix
+    # ./mail-archiver.nix
+    ./grafana.nix
     #./prometheus.nix
-    #./influxdb.nix
-    #./cadvisor.nix
     ./copyparty.nix
   ];
 }

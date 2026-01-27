@@ -164,6 +164,7 @@
 
   # Required for Hyprlock to see PAM module. See https://mynixos.com/home-manager/option/programs.hyprlock.enable for more details
   security.pam.services.hyprlock = {};
+  security.pam.services.login.enableGnomeKeyring = true;
 
   # Imports home.nix to configure home-manager for user Alex
   home-manager = {
