@@ -70,11 +70,8 @@
       "nc/mysql-root-password" = {};
       #      "nc/redis" = {};
 
-      "open-archiver/postgres-user" = {};
-      "open-archiver/postgres-password" = {};
-      "open-archiver/redis-password" = {};
-      "open-archiver/meili-master-key" = {};
-      "open-archiver/valkey" = {};
+      "mail-archiver/postgres-user" = {};
+      "mail-archiver/postgres-password" = {};
 
       #      "paperless-admin-password" = {
       #        owner = "paperless";

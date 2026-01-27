@@ -34,8 +34,8 @@ in {
 
       environment = {
         POSTGRES_DB = "MailArchiver";
-        POSTGRES_USER = "mailuser";
-        POSTGRES_PASSWORD = "masterkey"; # ← consider using file or sops-nix instead!
+        POSTGRES_USER = "/run/secrets/mail-archiver/postgres-user";
+        POSTGRES_PASSWORD = "/run/secrets/mail-archiver/postgres-password"; # ← consider using file or sops-nix instead!
       };
 
       volumes = [
@@ -69,9 +69,6 @@ in {
     requires = ["podman.service"];
     partOf = ["podman-compose-mailarchiver-root.target"];
   };
-
-  # Optional: open firewall port if you want to access the app from outside
-  #networking.firewall.allowedTCPPorts = [ 5000 ];
 
   # Optional: make sure podman/docker starts early
   systemd.targets.podman-compose-mailarchiver = {
