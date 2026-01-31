@@ -61,7 +61,7 @@ in {
       user = "paperless";
       dataDir = cfg.dataDir;
       port = cfg.port;
-      address = "172.16.20.50"; ## Change this to cfg.listenAddress
+      address = cfg.listenAddress; ## Change this to cfg.listenAddress
 
       mediaDir = cfg.mediaDir;
       consumptionDir = cfg.consumptionDir;
@@ -106,26 +106,5 @@ in {
     };
 
     users.groups.paperless = {};
-
-    ####################################
-    # Firewall (local only)
-    ####################################
-    #    networking.firewall.allowedTCPPorts = [
-    #      cfg.port # Paperless Port
-    #      32400
-    #      7979
-    #      7878
-    #      3923
-    #      3306
-    #      8124
-    #      9091
-    #      8081
-    #      5055
-    #      8989
-    #      3000
-    #      5000
-    #      80
-    #      443
-    #    ];
   };
 }

@@ -40,8 +40,13 @@
   };
 
   # Required for ZFS
-  boot.supportedFilesystems = ["zfs"];
-  boot.zfs.forceImportRoot = false;
+  boot = {
+    supportedFilesystems = ["zfs"];
+    zfs = {
+      extraPools = ["thufir2"];
+      forceImportRoot = false;
+    };
+  };
 
   networking.hostName = "spicems"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -80,6 +85,9 @@
   };
 
   services.zfs.autoScrub.enable = true;
+
+  # Causing paperless-ngx to no create systemd services
+  networking.modemmanager.enable = false;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.alex = {

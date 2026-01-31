@@ -91,4 +91,9 @@ in {
     after = ["podman-network-mailarchiver-postgres.service"];
     requires = ["podman-network-mailarchiver-postgres.service"];
   };
+
+  systemd.services."podman-mail-archiver" = {
+    after = ["zfs-import-thufir2.service" "zfs-mount.service"];
+    requires = ["zfs-import-thufir2.service"];
+  };
 }

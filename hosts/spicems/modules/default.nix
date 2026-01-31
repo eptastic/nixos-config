@@ -3,7 +3,7 @@
     ./podman-runtime.nix
     #./docker-runtime.nix
     #./networks.nix
-    #    ./paperless-ngx.nix
+    #./paperless-ngx.nix
   ];
 
   #  homelab.services.paperless = {
@@ -13,6 +13,6 @@
   #    consumptionDir = "/thufir2/paperless/import";
   #    passwordFile = "/run/secrets/paperless-admin-password";
   #    url = "paperless.spice.cx";
-  #    listenAddress = "172.16.20.50";
+  #    listenAddress = "0.0.0.0";
   #  };
 }

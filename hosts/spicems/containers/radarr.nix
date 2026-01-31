@@ -83,4 +83,14 @@ in {
       log-driver = vars.common.logDriver;
     };
   };
+
+  systemd.services."podman-radarr" = {
+    after = ["zfs-import-thufir2.service" "zfs-mount.service"];
+    requires = ["zfs-import-thufir2.service"];
+  };
+
+  systemd.services."podman-radarr4k" = {
+    after = ["zfs-import-thufir2.service" "zfs-mount.service"];
+    requires = ["zfs-import-thufir2.service"];
+  };
 }

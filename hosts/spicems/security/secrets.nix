@@ -73,11 +73,11 @@
       "mail-archiver/postgres-user" = {};
       "mail-archiver/postgres-password" = {};
 
-      #      "paperless-admin-password" = {
-      #        owner = "paperless";
-      #        group = "paperless";
-      #        mode = "0400";
-      #      };
+      "paperless-admin-password" = {
+        #owner = "paperless";
+        #group = "paperless";
+        #mode = "0400";
+      };
     };
   };
 }

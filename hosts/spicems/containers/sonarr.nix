@@ -15,7 +15,7 @@ in {
     volumes = [
       "${vars.system.dockerDir}/sonarr:/config"
       "${vars.system.sabDir}/complete:/downloads"
-      "${vars.system.mediaDir}/tv_shows:/tv_shows"
+      "${vars.system.mediaDir}/tv_shows:/tv"
       "${vars.system.dockerDir}/shared:/shared"
       "${vars.system.arrayDir}/recycling_bin:/recycling_bin"
       "/etc/localtime:/etc/localtime:ro"
@@ -40,5 +40,10 @@ in {
       "traefik.http.services.sonarr-svc.loadbalancer.server.port" = "8989";
       "traefik.http.routers.sonarr-rtr.middlewares" = "chain-authelia@file";
     };
+  };
+
+  systemd.services."podamn-sonarr" = {
+    after = ["zfs-import-thufir2.service" "zfs-mount.service"];
+    requires = ["zfs-import-thufir2.service"];
   };
 }

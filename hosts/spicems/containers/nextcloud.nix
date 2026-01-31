@@ -108,6 +108,11 @@ in {
       ${config.virtualisation.podman.package}/bin/podman network create nextcloud || true
     '';
   };
+
+  systemd.services."podman-nextcloud" = {
+    after = ["zfs-import-thufir2.service" "zfs-mount.service"];
+    requires = ["zfs-import-thufir2.service"];
+  };
 }
 #command: --transaction-isolation=READ-COMMITED --log-bin=mysqld-bin --binlog-format=ROW
 

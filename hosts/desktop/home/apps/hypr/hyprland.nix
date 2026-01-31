@@ -136,6 +136,16 @@
         "pin,title:^(Picture-in-Picture)$"
         "move 960 520,title:(Picture-in-Picture)"
         "float,title:^(Picture-in-Picture)$"
+
+        # Nextcloud
+        #        "float, class:^(nextcloud)$$   , title:^(Nextcloud)   $$"
+        #        "size 800 600, class:^(nextcloud)$$   , title:^(Nextcloud)   $$"
+        #
+        #        # Nextcloud Popover/Status $menu
+        #        "float, class:^(nextcloud)$$   , title:^()   $$"
+        #        "pin, class:^(nextcloud)$$   , title:^()   $$"
+        #        "move cursor -50% -50%, class:^(nextcloud)$$   , title:^()   $$"
+        #        "nofocus, class:^(nextcloud)$$   , title:^()   $$"
       ];
 
       bind = [
