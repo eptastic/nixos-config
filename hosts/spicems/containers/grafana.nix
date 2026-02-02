@@ -11,7 +11,7 @@ in {
     autoStart = true;
 
     ports = [
-      "3000:3000"
+      "3001:3000"
     ];
 
     networks = [

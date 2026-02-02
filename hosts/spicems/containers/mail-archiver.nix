@@ -50,7 +50,7 @@ in {
       environment = {
         POSTGRES_DB = "MailArchiver";
         POSTGRES_USER = "/run/secrets/mail-archiver/postgres-user";
-        POSTGRES_PASSWORD = "/run/secrets/mail-archiver/postgres-password"; # ← consider using file or sops-nix instead!
+        POSTGRES_PASSWORD = "/run/secrets/mail-archiver/postgres-password";
       };
 
       volumes = [
@@ -76,9 +76,12 @@ in {
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStart = "${pkgs.podman}/bin/podman network create mailarchiver-postgres";
-      #ExecStop = "${pkgs.podman}/bin/podman network rm -f mailarchiver-postgres";
     };
+    script = ''
+      ${pkgs.podman}/bin/podman network create --ignore mailarchiver-postgres
+    '';
+
+    #ExecStop = "${pkgs.podman}/bin/podman network rm -f mailarchiver-postgres";
     wantedBy = ["multi-user.target"];
     after = ["podman.service"];
     requires = ["podman.service"];

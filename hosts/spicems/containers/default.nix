@@ -1,5 +1,6 @@
 {
   imports = [
+    ./homepage.nix
     #./dozzle.nix
     ./homeassistant.nix
     ./plex.nix
@@ -16,5 +17,7 @@
     ./mail-archiver.nix
     ./grafana.nix
     ./copyparty.nix
+
+    ./paperless-ngx.nix
   ];
 }

@@ -6,7 +6,7 @@ in {
     authelia = {
       image = "authelia/authelia:latest";
       autoStart = true;
-      dependsOn = ["mariadb"];
+      #dependsOn = ["mariadb"];
 
       environment = {
         ## Need to change this back to Alex user (1000). So secrets need to be accesible by that user
@@ -17,7 +17,7 @@ in {
         AUTHELIA_SESSION_SECRET_FILE = "/run/secrets/authelia/session-file";
         AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE = "/run/secrets/authelia/storage-encrypt";
         AUTHELIA_DUO_API_SECRET_KEY_FILE = "/run/secrets/authelia/duo";
-        #        AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE = "/run/secrets/authelia/smtp-password";
+        AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE = "/run/secrets/authelia/smtp-password";
       };
 
       volumes = [
@@ -29,7 +29,6 @@ in {
         "t2_proxy"
       ];
 
-      # This was expose: in the yaml.
       ports = [
         "9091:9091"
       ];
@@ -51,33 +50,34 @@ in {
         #- "traefik.http.middlewares.authelia.forwardauth.authResponseHeaders=Remote-User,Remote-Groups,Remote-Name,Remote-Email"  # yamllint disable-line rule:line-length
       };
     };
-
-    mariadb = {
-      image = "mariadb:latest";
-      autoStart = true;
-
-      environment = {
-        PUID = vars.user.uid;
-        PGID = vars.user.pid;
-        TZ = vars.user.tz;
-
-        MYSQL_ROOT_PASSWORD = config.sops.secrets."authelia/mariadb/root-pass".path;
-        MYSQL_DATABASE = config.sops.secrets."authelia/mariadb/database".path;
-        MYSQL_USER = config.sops.secrets."authelia/mariadb/user".path;
-      };
-
-      volumes = [
-        "${vars.system.dockerDir}/mariadb:/var/lib/mysql"
-        "${vars.system.dockerDir}/mariadb:/config"
-      ];
-
-      ports = [
-        "3306:3306"
-      ];
-
-      networks = [
-        "t2_proxy"
-      ];
-    };
   };
+  ## Not necessary to have mariadb since I'm using sql lite
+  #    mariadb = {
+  #      image = "mariadb:latest";
+  #      autoStart = true;
+  #
+  #      environment = {
+  #        PUID = vars.user.uid;
+  #        PGID = vars.user.pid;
+  #        TZ = vars.user.tz;
+  #
+  #        MYSQL_ROOT_PASSWORD = config.sops.secrets."authelia/mariadb/root-pass".path;
+  #        MYSQL_DATABASE = config.sops.secrets."authelia/mariadb/database".path;
+  #        MYSQL_USER = config.sops.secrets."authelia/mariadb/user".path;
+  #      };
+  #
+  #      volumes = [
+  #        "${vars.system.dockerDir}/mariadb:/var/lib/mysql"
+  #        "${vars.system.dockerDir}/mariadb:/config"
+  #      ];
+  #
+  #      ports = [
+  #        "3306:3306"
+  #      ];
+  #
+  #      networks = [
+  #        "t2_proxy"
+  #      ];
+  #    };
+  #  };
 }
