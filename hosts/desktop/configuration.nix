@@ -333,6 +333,22 @@
   #
   #  };
 
+  #  services.samba = {
+  #    enable = true;
+  #    securityType = "user";
+  #    openFirewall = true;
+  #    settings = {
+  #      global = {
+  #      };
+  #    };
+  #  };
+  #
+  #  # Allows samba to advertise the shares to windows
+  #  services.samba-wsdd = {
+  #    enable = true;
+  #    openFirewall = true;
+  #  };
+
   services.mpd = {
     enable = true;
     musicDirectory = "/home/alex/music";

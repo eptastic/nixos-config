@@ -19,5 +19,7 @@
     ./copyparty.nix
 
     ./paperless-ngx.nix
+
+    ./beszel.nix
   ];
 }

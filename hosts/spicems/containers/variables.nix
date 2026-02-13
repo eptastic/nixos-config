@@ -7,7 +7,7 @@
   };
 
   system = {
-    localhost = "172.16.20.5O";
+    localhost = "172.16.20.50";
 
     dockerDir = "/home/alex/docker";
     sabDir = "/home/alex/docker/sabnzbd";

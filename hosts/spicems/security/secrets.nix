@@ -78,6 +78,18 @@
         #        group = "paperless";
         #        mode = "0400";
       };
+
+      "beszel/token" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
+
+      "beszel/api-key" = {
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
     };
   };
 }

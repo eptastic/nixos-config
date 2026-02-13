@@ -86,6 +86,8 @@ in {
           PAPERLESS_URL = "https://paperless.${domainName}";
           PAPERLESS_CSRF_TRUSTED_ORIGINS = "https://paperless.${domainName}";
           PAPERLESS_CORS_ALLOWED_HOSTS = "https://paperless.${domainName}";
+          USERMAP_UID = "1001";
+          USERMAP_GID = "100";
         };
         networks = [networkName];
 

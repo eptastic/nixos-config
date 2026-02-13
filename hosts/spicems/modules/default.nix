@@ -1,6 +1,7 @@
 {
   imports = [
     ./podman-runtime.nix
+    ./samba.nix
     #./docker-runtime.nix
     #./networks.nix
     #./paperless-ngx.nix
