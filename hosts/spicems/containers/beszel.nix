@@ -25,6 +25,20 @@ in {
         "${dockerDir}/beszel:/beszel_data"
         "${dockerDir}/beszel_socket:/beszel_socket"
       ];
+
+      networks = [
+        "t2_proxy"
+      ];
+
+      labels = {
+        "traefik.enable" = "true";
+        "traefik.http.routers.beszel-rtr.entrypoints" = "https";
+        "traefik.http.routers.beszel-rtr.rule" = "Host(`monitoring.${domainName}`)";
+        "traefik.http.routers.beszel-rtr.tls" = "true";
+        "traefik.http.routers.beszel-rtr.service" = "beszel-svc";
+        "traefik.http.services.beszel-svc.loadbalancer.server.port" = "8090";
+        "traefik.http.routers.beszel-rtr.middlewares" = "chain-authelia@file";
+      };
     };
 
     beszel-agent = {
