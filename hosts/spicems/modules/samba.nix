@@ -14,6 +14,14 @@
         "create mask" = "0664";
         "directory mask" = "0775";
       };
+      "thufir2" = {
+        path = "/thufir2/";
+        browsable = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0664";
+        "directory mask" = "0775";
+      };
     };
   };
 

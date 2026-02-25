@@ -114,7 +114,7 @@
     allowUnfree = true;
     allowBroken = true;
     permittedInsecurePackages = [
-      "broadcom-sta-6.30.223.271-59-6.12.62"
+      "broadcom-sta-6.30.223.271-59-6.12.67"
     ];
   };
 
@@ -333,35 +333,35 @@
   #
   #  };
 
-  #  services.samba = {
-  #    enable = true;
-  #    securityType = "user";
-  #    openFirewall = true;
-  #    settings = {
-  #      global = {
-  #      };
-  #    };
-  #  };
-  #
-  #  # Allows samba to advertise the shares to windows
-  #  services.samba-wsdd = {
-  #    enable = true;
-  #    openFirewall = true;
-  #  };
-
-  services.mpd = {
+  services.samba = {
     enable = true;
-    musicDirectory = "/home/alex/music";
-    extraConfig = ''
-      audio_output {
-      	type "pulse"
-      	name "My PulseAudio"
-      }
-    '';
-    user = "alex";
-    network.listenAddress = "any";
-    startWhenNeeded = true;
+    openFirewall = true;
+    settings = {
+      global = {
+        security = "user";
+      };
+    };
   };
+
+  # Allows samba to advertise the shares to windows
+  services.samba-wsdd = {
+    enable = true;
+    openFirewall = true;
+  };
+
+  #  services.mpd = {
+  #    enable = true;
+  #    musicDirectory = "/home/alex/music";
+  #    extraConfig = ''
+  #      audio_output {
+  #      	type "pulse"
+  #      	name "My PulseAudio"
+  #      }
+  #    '';
+  #    user = "alex";
+  #    network.listenAddress = "any";
+  #    startWhenNeeded = true;
+  #  };
 
   ### Stylix ###
 

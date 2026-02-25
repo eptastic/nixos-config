@@ -5,12 +5,43 @@
   config,
   pkgs,
   ...
-}: {
+}: let
+  ipAddr = "172.16.20.10";
+  gateway = "172.16.20.1";
+  domainName = "/run/secrets/domain/name";
+in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../modules/containers/monitoring/beszel-agent.nix
+    ./security/secrets.nix
+
     #./git.nix #Disabled until I enabled home-manager
   ];
+
+  # Create the directory for the keys.txt for AGE file
+  systemd.tmpfiles.rules = [
+    "d /var/lib/sops 0700 root root -"
+    "d /var/lib/sops/age 0700 root root -"
+  ];
+
+  ## Place into dedicated file when ready
+  my.beszel.agent = {
+    enable = true;
+    hubUrl = "http://172.16.20.50:8090";
+    tokenFile = "/secrets/token";
+    keyFile = "/secrets/api-key";
+
+    #  smartDevices = [
+    #      "/dev/nvme0n1"   # your boot drive
+    #      "/dev/sda" "/dev/sdb" "/dev/sdc" "/dev/sdd" "/dev/sde" "/dev/sdf"  # your 6 array drives
+    #    ];
+    #
+    #    extraFilesystems = {
+    #      "/tank/.beszel" = "tank";           # or "storage__Tank" for pretty name
+    #      # add more ZFS datasets here
+    #    };
+  };
 
   nix.settings = {
     experimental-features = ["nix-command" "flakes"];
@@ -27,12 +58,12 @@
   networking.networkmanager.enable = true;
   networking.interfaces.eth0.ipv4.addresses = [
     {
-      address = "172.16.20.10";
+      address = "${ipAddr}";
       prefixLength = 24;
     }
   ];
-  networking.defaultGateway = "172.16.20.1";
-  networking.nameservers = ["172.16.20.1"];
+  networking.defaultGateway = gateway;
+  #networking.nameservers = [gateway]; #Disable default name servers from FW
 
   # Set your time zone.
   time.timeZone = "Australia/Melbourne";
@@ -73,18 +104,6 @@
     ];
   };
 
-  # Generate SSH config file under /home/alex/.ssh
-  #  home.file.".ssh/config" = {
-  #    text = ''
-  #      Host github.com
-  #        User git
-  #        IdentityFile /etc/ssh/ssh_host_ed25519_key
-  #        StrictHostKeyChecking no
-  #    '';
-  #    target = "/home/alex/.ssh/config";
-  #  };
-  #}
-
   ## Monero User and Group
   users.groups.monero = {};
 
@@ -112,6 +131,7 @@
       # p2p-bind-port=18080            # Bind to default port
 
       # RPC configuration
+      public-node=1
       rpc-restricted-bind-ip=0.0.0.0            # Bind restricted RPC to all interfaces
       rpc-restricted-bind-port=18089            # Bind restricted RPC on custom port to differentiate from default unrestricted RPC (18081)
       no-igd=1                       # Disable UPnP port mapping
@@ -135,6 +155,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     monero-cli
+    tor
     prometheus-node-exporter
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     #toybox
@@ -165,7 +186,8 @@
 
     # Service management
     serviceConfig = {
-      Type = "forking";
+      Type = "simple";
+      #      Type = "forking";
       #        PIDFile = "/run/monero/monerod.pid";
       ExecStart = "${pkgs.monero-cli}/bin/monerod --config-file=/etc/monero/monerod.conf --data-dir=/var/lib/monero/.bitmonero --non-interactive";
       #--pidfile /run/monero/monerod.pid
@@ -174,7 +196,7 @@
       Restart = "always";
       RestartSec = 30;
 
-      TimeoutStartSec = "0";
+      TimeoutStartSec = "30min";
       TimeoutStopSec = "20min";
       KillSignal = "SIGTERM";
       SendSIGKILL = "no"; ## Ensures the service is not killed early
@@ -207,6 +229,37 @@
     wantedBy = ["multi-user.target"];
   };
 
+  services.tor = {
+    enable = true;
+
+    relay = {
+      enable = true;
+      # The key in the attrset becomes the directory name under /var/lib/tor/
+      # You can name it whatever you want (mysite, ssh, bitcoind, etc.)
+      role = "private-bridge";
+
+      onionServices = {
+        "nixnodebest" = {
+          # Required: which local port(s) to forward
+          # Format: { "onion-port" = "destination"; }
+          map = [
+            {
+              port = 18089;
+              target = {
+                addr = "127.0.0.1";
+                port = 18089;
+              };
+            }
+          ];
+          # Optional: version 3 onion address (default nowadays)
+          # You can also set version = [ 2 3 ]; but v2 is deprecated
+          version = 3;
+          # Very optional – if you want deterministic addresses (same key → same .onion)
+          # secretKey = "/run/keys/my-onion-ed25519-private-key";
+        };
+      };
+    };
+  };
   # Prometheus Node Exporter
   services.prometheus.exporters.node = {
     enable = true;
@@ -221,12 +274,42 @@
     settings.KbdInteractiveAuthentication = false;
   };
 
-  # Open ports in the firewall.
-  networking.firewall = {
+  services.nginx = {
     enable = true;
-    allowedTCPPorts = [18080 18081 18089 9100];
-    allowedUDPPorts = [18080 18081 18089 9100];
+
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+
+    virtualHosts."nixmonero.best" = {
+      enableACME = true;
+      forceSSL = true;
+
+      default = true;
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:18089/";
+        proxyWebsockets = true;
+        extraConfig = ''
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Real-IP $remote_addr;
+        '';
+      };
+    };
   };
+
+  # Open ports in the firewall.
+  networking = {
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [80 443 18080 18089 9100]; # Removed 18081
+      allowedUDPPorts = [80 443 18080 18089 9100]; # Removed 18081
+    };
+    nameservers = ["1.1.1.1" "1.0.0.1"];
+  };
+
+  security.acme.acceptTerms = true;
+  security.acme.defaults.email = "canal_purgatory199@simplelogin.com";
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

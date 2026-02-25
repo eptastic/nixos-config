@@ -66,6 +66,7 @@
         modules = [
           ./hosts/monero_nix/configuration.nix
           ./hosts/monero_nix/hardware-configuration.nix
+          sops-nix.nixosModules.sops
         ];
       };
       ## Laptop Configuration

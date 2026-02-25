@@ -1,6 +1,7 @@
 keys:
   - &desktop_alex age1qaxfw7w2ylzyapqgkvydw8jntq54mvv2eqspazerfkme6pquadvszg2dqm
   - &spicems age1uq3yl9cjmvgxhcp4m9as4g75p9p0lfunqpn0lrywsnkucw40c4qql6dgp6
+  - &monero_nix age1vcp02huw7lw7da844neuts89cekf3fezv089at8sx4qm6zrlp4zqza2lvr
 creation_rules:
   # Desktop Secrets
   - path_regex: hosts/desktop/system/security/secrets/[^/]+\.(yaml|json|env|ini)$
@@ -13,3 +14,4 @@ creation_rules:
       - age:
         - *desktop_alex
         - *spicems
+        - *monero_nix
