@@ -119,33 +119,33 @@
         force_default_wallpaper = 0; # Set to 0 or 1 to disable the anime mascot wallpapers
       };
 
-      windowrulev2 = [
+      windowrule = [
         # Set bordercolor to red if window is fullscreen
-        "bordercolor rgb(cc241d) rgb(880808),fullscreen:1"
+        "border_color rgb(cc241d) rgb(880808), match:fullscreen 1"
 
         # Suppress Firefox maximize animation
-        "suppressevent maximize,class:^(firefox)$"
+        "suppress_event maximize, match:class ^(firefox)$"
 
         # Set Pavucontrol and other windows to float
-        "float,class:pavucontrol"
-        "float,title:swappy"
-        "float,title:Syncthing"
+        "float on , match:class pavucontrol"
+        "float on, match:title swappy"
+        "float on, match:title Syncthing"
 
         # Firefox Picture-in-Picture window tweaks
-        "size 640 360,title:(Picture-in-Picture)"
-        "pin,title:^(Picture-in-Picture)$"
-        "move 960 520,title:(Picture-in-Picture)"
-        "float,title:^(Picture-in-Picture)$"
+        "size 640 360, match:title (Picture-in-Picture)"
+        "pin on, match:title ^(Picture-in-Picture)$"
+        "move 960 520, match:title (Picture-in-Picture)"
+        "float on, match:title ^(Picture-in-Picture)$"
 
         # Nextcloud
-        #        "float, class:^(nextcloud)$$   , title:^(Nextcloud)   $$"
-        #        "size 800 600, class:^(nextcloud)$$   , title:^(Nextcloud)   $$"
+        #        "float on, class:^(nextcloud)$$   , match:title ^(Nextcloud)   $$"
+        #        "size 800 600, class:^(nextcloud)$$   , match:title ^(Nextcloud)   $$"
         #
         #        # Nextcloud Popover/Status $menu
-        #        "float, class:^(nextcloud)$$   , title:^()   $$"
-        #        "pin, class:^(nextcloud)$$   , title:^()   $$"
+        #        "float on, class:^(nextcloud)$$   , title:^()   $$"
+        #        "pin on, class:^(nextcloud)$$   , title:^()   $$"
         #        "move cursor -50% -50%, class:^(nextcloud)$$   , title:^()   $$"
-        #        "nofocus, class:^(nextcloud)$$   , title:^()   $$"
+        #        "nofocus on, class:^(nextcloud)$$   , title:^()   $$"
       ];
 
       bind = [
