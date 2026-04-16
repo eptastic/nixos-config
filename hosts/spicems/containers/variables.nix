@@ -50,6 +50,12 @@
     ];
   };
 
+  immich = {
+    version = "v2.6.3";
+    uploadLocation = "/thufir2/immich/upload";
+    dbDataLocation = "/thufir2/immich/db";
+  };
+
   local = {
     ips = map builtins.toString [
       172.0.0.1/32

@@ -79,6 +79,10 @@
         #        mode = "0400";
       };
 
+      "immich/postgres-user" = {};
+      "immich/postgres-password" = {};
+      "immich/postgres-db" = {};
+
       "beszel/token" = {
         owner = "root";
         group = "root";

@@ -118,6 +118,18 @@
     ];
   };
 
+  nixpkgs.overlays = [
+    (final: prev: {
+      vimPlugins =
+        prev.vimPlugins
+        // {
+          nvim-treesitter = inputs.nvf-nixpkgs.legacyPackages.${prev.system}.vimPlugins.nvim-treesitter;
+          # or if it's not in legacyPackages:
+          # nvim-treesitter = (import inputs.nvf-nixpkgs { inherit (prev) system; }).vimPlugins.nvim-treesitter;
+        };
+    })
+  ];
+
   # Required for Ledger Live USB connection
   users.groups.plugdev = {};
 
@@ -128,6 +140,7 @@
     extraGroups = ["networkmanager" "wheel" "plugdev"];
     packages = with pkgs; [
       topgrade
+      libreoffice-qt
       firefox
       nwg-displays
       bc # used for weather widget
@@ -147,6 +160,7 @@
       swww # Background images
       #rofi-wayland # Application Launcher
       pavucontrol
+      pulseaudio
       slurp
       grim
       swappy # Annotated Screenshots
@@ -301,6 +315,7 @@
   # Disabled to run xorg temporarily
   xdg.portal.enable = true;
   xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-gtk];
+  xdg.portal.configPackages = [pkgs.xdg-desktop-portal-gtk];
 
   ## Enable Sound
   security.rtkit.enable = true;

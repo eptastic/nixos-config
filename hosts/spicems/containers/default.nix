@@ -21,5 +21,10 @@
     ./paperless-ngx.nix
 
     ./beszel.nix
+
+    ./esphome.nix
+    ./mosquitto.nix
+
+    ./immich.nix
   ];
 }

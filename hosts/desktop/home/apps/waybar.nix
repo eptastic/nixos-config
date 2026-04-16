@@ -77,7 +77,7 @@
       }
 
       /* you can set a style on hover for any module like this */
-      #pipewire:hover {
+      #pulseaudio:hover {
           background-color: #a37800;
       }
 
@@ -123,7 +123,7 @@
       #temperature,
       #backlight,
       #network,
-      #pipewire,
+      #pulseaudio,
       #wireplumber,
       #custom-media,
       #tray,
@@ -198,12 +198,12 @@
           background-color: @red;
       }
 
-      #pipewire {
+      #pulseaudio {
           background-color: transparent;
           color: @white;
       }
 
-      #pipewire.muted {
+      #pulseaudio.muted {
           background-color: #90b1b1;
           color: #2a5c45;
       }
@@ -361,7 +361,7 @@
         ];
         modules-center = ["hyprland/workspaces"];
         modules-right = [
-          "pipewire"
+          "pulseaudio"
           "network"
           "tray"
           "clock"
@@ -422,7 +422,7 @@
           };
         };
 
-        "pipewire" = {
+        "pulseaudio" = {
           format = "{volume}% {icon} {format_source}";
           format-bluetooth = "{volume}% {icon} {format_source}";
           format-bluetooth-muted = "󰝟 {icon} {format_source}";

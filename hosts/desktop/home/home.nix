@@ -24,7 +24,11 @@
   ];
   # users."alex" = {
   home.homeDirectory = "/home/alex";
-  home.file = {};
+  home.file = {
+    "games/.keep" = {
+      text = "";
+    };
+  };
   # };
 
   home.stateVersion = "23.11";
@@ -36,6 +40,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    chromium
     gcr
     qmk
     keymapviz
@@ -72,7 +77,6 @@
     lazygit
     #chafa # Required for Image Previews for LF
     ueberzugpp
-    vesktop
     swappy
     waypaper
     cava
@@ -85,10 +89,21 @@
     bitwarden-desktop
     freetube
     alejandra
+    gimp
   ];
+
+  programs.discord.enable = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  xdg.configFile."swappy/config".text = ''
+    [Default]
+    save_dir=${config.home.homeDirectory}/Pictures/Screenshots
+    save_filename_format=Screenshot-%Y-%m-%d_%H-%M-%S.png
+    early_exit=true
+    copy_to_clipboard=true
+  '';
 
   programs.ssh = {
     enable = true;
@@ -137,6 +152,11 @@
       enable = true;
       theme = "agnoster";
     };
+  };
+
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
   };
 
   programs.rofi = {

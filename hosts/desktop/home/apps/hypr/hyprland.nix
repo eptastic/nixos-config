@@ -155,8 +155,9 @@
         "$mainMod, D, exec, rofi -show drun -show-icons"
 
         # Screenshot command, the copying to the clipboard doesn't work
-        ", Print, exec, grim -g '$(slurp)' - | tee >(wl-copy && notify-send 'Screenshot copied to clipboard' -t 1000) > /home/alex/Pictures/Screenshots/Screenshot-$(date +%F_%T).png && notify-send 'Screenshot saved to /home/alex/Pictures/Screenshots' -t 1000"
-        "SHIFT, Print, exec, grim -g '$(slurp)' - | swappy -f -"
+        ", Print, exec, sh -c 'FILE=\"/home/alex/Pictures/Screenshots/Screenshot-$(date +%F_%H-%M-%S).png\"; grim -g \"$(slurp)\" \"$FILE\" && wl-copy < \"$FILE\" && notify-send \"Screenshot saved & copied\" -t 2000'"
+
+        "SHIFT, Print, exec, grim -g \"$(slurp)\" - | swappy -f -"
 
         "$mainMod, RETURN, exec, $terminal"
         "$mainMod, C, killactive, "
