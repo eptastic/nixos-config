@@ -109,6 +109,11 @@
     '';
   };
 
+  # External HD + USBs
+  services.udisks2.enable = true;
+  services.gvfs.enable = true;
+  services.devmon.enable = true;
+
   # Allow unfree and broken pkgs
   nixpkgs.config = {
     allowUnfree = true;
@@ -139,6 +144,7 @@
     description = "Alex Mathison";
     extraGroups = ["networkmanager" "wheel" "plugdev"];
     packages = with pkgs; [
+      solaar
       topgrade
       libreoffice-qt
       firefox
@@ -305,6 +311,9 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
+  hardware.logitech.wireless.enable = true;
+  hardware.logitech.wireless.enableGraphical = true;
+
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
@@ -391,16 +400,18 @@
     };
     fonts = {
       monospace = {
-        package = pkgs.nerd-fonts.jetbrains-mono;
-        name = "JetBrainsMono Nerd Font Mono";
+        package = pkgs.nerd-fonts.caskaydia-cove;
+        name = "CaskaydiaCove Nerd Font";
+        #package = pkgs.nerd-fonts.jetbrains-mono;
+        #name = "JetBrainsMono Nerd Font";
       };
       sansSerif = {
         package = pkgs.dejavu_fonts;
-        name = "JetBrainsMono Nerd Font Mono";
+        name = "DejaVu Sans";
       };
       serif = {
         package = pkgs.dejavu_fonts;
-        name = "JetBrainsMono Nerd Font Mono";
+        name = "DejaVu Serif";
       };
     };
   };

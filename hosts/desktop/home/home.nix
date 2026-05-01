@@ -40,6 +40,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    davinci-resolve
     chromium
     gcr
     qmk
@@ -146,6 +147,17 @@
 
   services.gnome-keyring.enable = true;
 
+  services.udiskie = {
+    enable = true;
+    # Could add preferred file manager here
+    settings = {
+      program_options = {
+        terminal = "${pkgs.wezterm}/bin/wezterm -e ${pkgs.yazi}/bin/yazi";
+        # or if term is in $path
+        # terminal = "yazi";
+      };
+    };
+  };
   # Enable Oh My Zsh
   programs.zsh = {
     oh-my-zsh = {

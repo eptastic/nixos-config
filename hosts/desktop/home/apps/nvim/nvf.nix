@@ -1,4 +1,4 @@
-{...}: {
+{lib, ...}: {
   programs.nvf = {
     enable = true;
     defaultEditor = true;
@@ -109,7 +109,14 @@
           cinnamon-nvim.enable = true;
           indent-blankline.enable = true;
           nvim-cursorline.enable = true;
-          nvim-web-devicons.enable = true;
+          nvim-web-devicons = {
+            enable = true;
+            setupOpts = {
+              strict = true;
+              color_icons = true;
+              default = true;
+            };
+          };
         };
 
         statusline.lualine.enable = true;
@@ -153,6 +160,21 @@
                 date_format = "%Y/%m/%d";
                 default_tags = ["daily"];
               };
+
+              new_notes_location = "current_dir";
+
+              note_id_func = lib.mkLuaInline ''
+                function(title)
+                  if title and title ~= "" then
+                    local clean = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+                    return os.date("%Y-%m-%d") .. "-" .. clean
+                  else
+                    return os.date("%Y-%m-%d") .. "-new-note"
+                  end
+                end
+              '';
+
+              preferred_link_style = "wiki";
             };
           };
 
@@ -194,7 +216,14 @@
         mini.surround.enable = true;
 
         utility = {
-          preview.markdownPreview.enable = true;
+          preview = {
+            markdownPreview = {
+              enable = true;
+              autoStart = false;
+              autoClose = true;
+              lazyRefresh = true;
+            };
+          };
           snacks-nvim = {
             enable = true;
             setupOpts.picker.enabled = true;

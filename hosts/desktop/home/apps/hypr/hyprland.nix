@@ -3,6 +3,11 @@
   config,
   ...
 }: {
+  xdg.dataFile."scripts/hyprland-bitwarden-resize.sh" = {
+    source = import ./bitwarden-resize-script.nix pkgs;
+    force = true;
+  };
+
   wayland.windowManager.hyprland = {
     enable = true;
 
