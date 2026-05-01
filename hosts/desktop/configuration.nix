@@ -274,7 +274,22 @@
   system.stateVersion = "23.11"; # Did you read the comment?
 
   # Enable Flakes and Nix Command
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  nix.settings = {
+    experimental-features = ["nix-command" "flakes"];
+    max-jobs = 4;
+    cores = 4;
+  };
+
+  # Kills runaway processes to prevent system freezes
+  services.earlyoom.enable = true;
+
+  # Add 16GB Swap to prevent freezes when upgrading
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 16 * 1024;
+    }
+  ];
 
   # Enabling H Y P R L A N D
   programs.hyprland = {
