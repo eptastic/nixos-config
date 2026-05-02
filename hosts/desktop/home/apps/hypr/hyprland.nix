@@ -12,11 +12,11 @@
     enable = true;
 
     extraConfig = ''
-      exec-once = ${pkgs.swww}/bin/swww-daemon
+      exec-once = ${pkgs.awww}/bin/awww-daemon
       exec-once = ${pkgs.networkmanagerapplet}/bin/nm-applet --indicator
       exec-once = ${pkgs.waybar}/bin/waybar
 
-      exec-once = sleep 1 && ${pkgs.swww}/bin/swww img ${config.home.homeDirectory}/nixos-config/assets/wallpaper/space_brown_hues.jpg
+      exec-once = sleep 1 && ${pkgs.awww}/bin/awww img ${config.home.homeDirectory}/nixos-config/assets/wallpaper/space_brown_hues.jpg
     '';
 
     settings = {

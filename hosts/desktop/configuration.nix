@@ -163,7 +163,7 @@
       git
       mako
       libnotify # Mako depends on this
-      swww # Background images
+      awww # Background images
       #rofi-wayland # Application Launcher
       pavucontrol
       pulseaudio
