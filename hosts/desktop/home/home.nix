@@ -93,6 +93,10 @@
     gimp
   ];
 
+  gtk.gtk4.theme = null;
+  programs.yazi.shellWrapperName = "y";
+  programs.git.signing.format = "openpgp";
+
   programs.discord.enable = true;
 
   # Let Home Manager install and manage itself.
